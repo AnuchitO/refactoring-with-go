@@ -145,18 +145,11 @@ func (play Play) name() string {
 }
 
 func (play Play) amountFor(audience int) float64 {
-	amount := 0.0
-	kind := play.Type
-	switch kind {
-	case "comedy":
-		amount = 30000
-		if audience > 20 {
-			amount += 10000 + 500*(float64(audience-20))
-		}
-		amount += 300 * float64(audience)
-	default:
-		panic(fmt.Sprintf("unknow type: %s", kind))
+	amount := 30000.0
+	if audience > 20 {
+		amount += 10000 + 500*(float64(audience-20))
 	}
+	amount += 300 * float64(audience)
 	return amount
 }
 
