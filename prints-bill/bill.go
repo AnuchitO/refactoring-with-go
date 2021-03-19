@@ -27,8 +27,8 @@ func statement(invoice Invoice, plays Plays) string {
 	for _, perf := range invoice.Performances {
 		audience := perf.Audience
 		play := playFor(plays, perf)
-		amount := amountFor(play, audience)
-		credit := volumeCreditsFor(play, audience)
+		amount := play.amountFor(audience)
+		credit := play.volumeCreditsFor(audience)
 		pays = append(pays, Rate{Play: play, Amount: amount, Audience: audience, Credit: credit})
 	}
 	bill := Bill{
@@ -81,7 +81,7 @@ func renderPlainText(bill Bill) string {
 	return result
 }
 
-func volumeCreditsFor(play Play, audience int) float64 {
+func (play Play) volumeCreditsFor(audience int) float64 {
 	credits := 0.0
 	credits += math.Max(float64(audience-30), 0)
 	// add extra credit for every ten comedy attendees
@@ -95,7 +95,7 @@ func playFor(plays Plays, perf Performance) Play {
 	return plays[perf.PlayID]
 }
 
-func amountFor(play Play, audience int) float64 {
+func (play Play) amountFor(audience int) float64 {
 	amount := 0.0
 	kind := play.Type
 	switch kind {
