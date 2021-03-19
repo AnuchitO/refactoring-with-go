@@ -13,9 +13,9 @@ func TestPrintBill(t *testing.T) {
 			{PlayID: "othello", Audience: 40},
 		}}
 	plays := Plays{
-		"hamlet":  {Name: "Hamlet", Type: "tragedy"},
-		"as-like": {Name: "As You Like It", Type: "comedy"},
-		"othello": {Name: "Othello", Type: "tragedy"},
+		"hamlet":  tragedy{Name: "Hamlet", Type: "tragedy"},
+		"as-like": comedy{Name: "As You Like It", Type: "comedy"},
+		"othello": tragedy{Name: "Othello", Type: "tragedy"},
 	}
 
 	bill := statement(inv, plays)

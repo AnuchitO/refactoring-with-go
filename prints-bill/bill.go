@@ -5,12 +5,12 @@ import (
 	"math"
 )
 
-type Play struct {
+type comedy struct {
 	Name string
 	Type string
 }
 
-type Plays map[string]Play
+type Plays map[string]XYZ
 type NPlays map[string]XYZ
 
 type Performance struct {
@@ -85,7 +85,7 @@ func renderPlainText(bill Bill) string {
 	return result
 }
 
-func (play Play) volumeCreditsFor(audience int) float64 {
+func (play comedy) volumeCreditsFor(audience int) float64 {
 	credits := 0.0
 	credits += math.Max(float64(audience-30), 0)
 	// add extra credit for every ten comedy attendees
@@ -97,10 +97,6 @@ func (play Play) volumeCreditsFor(audience int) float64 {
 
 func playFor(plays Plays, perf Performance) XYZ {
 	play := plays[perf.PlayID]
-	switch play.Type {
-	case "tragedy":
-		return tragedy{Name: play.Name, Type: play.Type}
-	}
 	return play
 }
 
@@ -140,11 +136,11 @@ type XYZ interface {
 	name() string
 }
 
-func (play Play) name() string {
+func (play comedy) name() string {
 	return play.Name
 }
 
-func (play Play) amountFor(audience int) float64 {
+func (play comedy) amountFor(audience int) float64 {
 	amount := 30000.0
 	if audience > 20 {
 		amount += 10000 + 500*(float64(audience-20))
@@ -163,9 +159,9 @@ func main() {
 		}}
 
 	plays := Plays{
-		"hamlet":  {Name: "Hamlet", Type: "tragedy"},
-		"as-like": {Name: "As You Like It", Type: "comedy"},
-		"othello": {Name: "Othello", Type: "tragedy"},
+		"hamlet":  tragedy{Name: "Hamlet", Type: "tragedy"},
+		"as-like": comedy{Name: "As You Like It", Type: "comedy"},
+		"othello": tragedy{Name: "Othello", Type: "tragedy"},
 	}
 
 	bill := statement(inv, plays)
