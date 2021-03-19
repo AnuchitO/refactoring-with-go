@@ -33,11 +33,19 @@ func statement(invoice Invoice, plays Plays) string {
 	bill := Bill{
 		Customer:           invoice.Customer,
 		Rates:              pays,
-		TotalAmount:        totalAmount(invoice.Performances, plays),
+		TotalAmount:        totalAmounts(pays),
 		TotalVolumeCredits: totalVolumeCredits(invoice.Performances, plays),
 	}
 
 	return renderPlainText(bill)
+}
+
+func totalAmounts(pays []Rate) float64 {
+	result := 0.0
+	for _, pay := range pays {
+		result += pay.Amount
+	}
+	return result
 }
 
 type Rate struct {
@@ -60,14 +68,6 @@ func renderPlainText(bill Bill) string {
 	}
 	result += fmt.Sprintf("Amount owed is $%.2f\n", bill.TotalAmount/100)
 	result += fmt.Sprintf("you earned %.0f credits\n", bill.TotalVolumeCredits)
-	return result
-}
-
-func totalAmount(performances []Performance, plays Plays) float64 {
-	result := 0.0
-	for _, perf := range performances {
-		result += amountFor(playFor(plays, perf), perf.Audience)
-	}
 	return result
 }
 
