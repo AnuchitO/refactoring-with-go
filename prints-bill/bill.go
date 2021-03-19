@@ -11,6 +11,7 @@ type Play struct {
 }
 
 type Plays map[string]Play
+type NPlays map[string]XYZ
 
 type Performance struct {
 	PlayID   string `json:"playID"`
@@ -28,7 +29,7 @@ func statement(invoice Invoice, plays Plays) string {
 		play := playFor(plays, perf)
 		audience := perf.Audience
 		pays = append(pays, Rate{
-			Play:     play.(Play),  // TODO: fix Name() interface
+			Play:     play,
 			Audience: audience,
 			Amount:   play.amountFor(audience),
 			Credit:   play.volumeCreditsFor(audience),
@@ -61,7 +62,7 @@ func totalAmounts(pays []Rate) float64 {
 }
 
 type Rate struct {
-	Play     Play
+	Play     XYZ
 	Amount   float64
 	Audience int
 	Credit   float64
@@ -77,7 +78,7 @@ type Bill struct {
 func renderPlainText(bill Bill) string {
 	result := fmt.Sprintf("Statement for %s\n", bill.Customer)
 	for _, pay := range bill.Rates {
-		result += fmt.Sprintf("  %s: $%.2f (%d seats)\n", pay.Play.Name, pay.Amount/100, pay.Audience)
+		result += fmt.Sprintf("  %s: $%.2f (%d seats)\n", pay.Play.name(), pay.Amount/100, pay.Audience)
 	}
 	result += fmt.Sprintf("Amount owed is $%.2f\n", bill.TotalAmount/100)
 	result += fmt.Sprintf("you earned %.0f credits\n", bill.TotalVolumeCredits)
@@ -95,12 +96,52 @@ func (play Play) volumeCreditsFor(audience int) float64 {
 }
 
 func playFor(plays Plays, perf Performance) XYZ {
-	return plays[perf.PlayID]
+	play := plays[perf.PlayID]
+	switch play.Type {
+	case "tragedy":
+		return tragedy{Name: play.Name, Type: play.Type}
+	}
+	return play
+}
+
+type tragedy struct {
+	Name string
+	Type string
+}
+
+func (play tragedy) amountFor(audience int) float64 {
+	amount := 0.0
+	kind := play.Type
+	switch kind {
+	case "tragedy":
+		amount = 40000
+		if audience > 30 {
+			amount += 1000 * (float64(audience - 30))
+		}
+	default:
+		panic(fmt.Sprintf("not a type tragedy: %s", kind))
+	}
+	return amount
+}
+
+func (play tragedy) volumeCreditsFor(audience int) float64 {
+	credits := 0.0
+	credits += math.Max(float64(audience-30), 0)
+	return credits
+}
+
+func (play tragedy) name() string {
+	return play.Name
 }
 
 type XYZ interface {
 	amountFor(audience int) float64
 	volumeCreditsFor(audience int) float64
+	name() string
+}
+
+func (play Play) name() string {
+	return play.Name
 }
 
 func (play Play) amountFor(audience int) float64 {
