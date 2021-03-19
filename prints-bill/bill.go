@@ -5,11 +5,6 @@ import (
 	"math"
 )
 
-type comedy struct {
-	Name string
-	Type string
-}
-
 type Plays map[string]Play
 
 type Performance struct {
@@ -42,6 +37,11 @@ func statement(invoice Invoice, plays Plays) string {
 	}
 
 	return renderPlainText(bill)
+}
+
+type comedy struct {
+	Name string
+	Type string
 }
 
 func totalVolumeCredits(pays []Rate) float64 {
@@ -87,10 +87,9 @@ func renderPlainText(bill Bill) string {
 func (play comedy) volumeCreditsFor(audience int) float64 {
 	credits := 0.0
 	credits += math.Max(float64(audience-30), 0)
+
 	// add extra credit for every ten comedy attendees
-	if "comedy" == play.Type {
-		credits += math.Floor(float64(audience / 5))
-	}
+	credits += math.Floor(float64(audience / 5))
 	return credits
 }
 
@@ -105,16 +104,9 @@ type tragedy struct {
 }
 
 func (play tragedy) amountFor(audience int) float64 {
-	amount := 0.0
-	kind := play.Type
-	switch kind {
-	case "tragedy":
-		amount = 40000
-		if audience > 30 {
-			amount += 1000 * (float64(audience - 30))
-		}
-	default:
-		panic(fmt.Sprintf("not a type tragedy: %s", kind))
+	amount := 40000.0
+	if audience > 30 {
+		amount += 1000 * (float64(audience - 30))
 	}
 	return amount
 }
