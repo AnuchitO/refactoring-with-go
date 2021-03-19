@@ -23,18 +23,51 @@ type Invoice struct {
 }
 
 func statement(invoice Invoice, plays Plays) string {
-	totalAmount := 0.0
-	result := fmt.Sprintf("Statement for %s\n", invoice.Customer)
+	var pays []Rate
+	for _, perf := range invoice.Performances {
+		play := playFor(plays, perf)
+		amount := amountFor(perf, play)
+		audience := perf.Audience
+		pays = append(pays, Rate{Play: play, Amount: amount, Audience: audience })
+	}
+	bill := Bill{
+		Customer:           invoice.Customer,
+		Rates:              pays,
+		TotalAmount:        totalAmount(invoice, plays),
+		TotalVolumeCredits: totalVolumeCredits(invoice, plays),
+	}
+	
+	return renderPlainText(bill)
+}
 
-	for _, perf := range invoice.Performances {
-		// print line for this order
-		result += fmt.Sprintf("  %s: $%.2f (%d seats)\n", playName(playFor(plays, perf)), amountFor(perf, playFor(plays, perf))/100, perf.Audience)
+type Rate struct {
+	Play Play
+	Amount float64
+	Audience int
+}
+
+type Bill struct {
+	Customer           string
+	Rates              []Rate
+	TotalAmount        float64
+	TotalVolumeCredits float64
+}
+
+func renderPlainText(bill Bill) string {
+	result := fmt.Sprintf("Statement for %s\n", bill.Customer)
+	for _, pay := range bill.Rates {
+		result += fmt.Sprintf("  %s: $%.2f (%d seats)\n", pay.Play.Name, pay.Amount/100, pay.Audience)
 	}
+	result += fmt.Sprintf("Amount owed is $%.2f\n", bill.TotalAmount/100)
+	result += fmt.Sprintf("you earned %.0f credits\n", bill.TotalVolumeCredits)
+	return result
+}
+
+func totalAmount(invoice Invoice, plays Plays) float64 {
+	result := 0.0
 	for _, perf := range invoice.Performances {
-		totalAmount += amountFor(perf, playFor(plays, perf))
+		result += amountFor(perf, playFor(plays, perf))
 	}
-	result += fmt.Sprintf("Amoucnt owed is $%.2f\n", totalAmount/100)
-	result += fmt.Sprintf("you earned %.0f credits\n", totalVolumeCredits(invoice, plays))
 	return result
 }
 
@@ -50,13 +83,11 @@ func volumeCreditsFor(perf Performance, plays Plays) float64 {
 	credits := 0.0
 	credits += math.Max(float64(perf.Audience-30), 0)
 	// add extra credit for every ten comedy attendees
-	if "comedy" == playType(playFor(plays, perf)) {
+	play := playFor(plays, perf)
+	if "comedy" == play.Type {
 		credits += math.Floor(float64(perf.Audience / 5))
 	}
 	return credits
-}
-func playName(play Play) string {
-	return play.Name
 }
 
 func playType(play Play) string {

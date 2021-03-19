@@ -29,6 +29,6 @@ you earned 47 credits
 `
 
 	if exp != bill {
-		t.Errorf("expect %q but got %q", exp, bill)
+		t.Errorf("expect\n %q\n but got\n %q", exp, bill)
 	}
 }
