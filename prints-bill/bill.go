@@ -123,12 +123,12 @@ func main() {
 			{PlayID: "othello", Audience: 40},
 		}}
 
-	_plays := Plays{
+	plays := Plays{
 		"hamlet":  {Name: "Hamlet", Type: "tragedy"},
 		"as-like": {Name: "As You Like It", Type: "comedy"},
 		"othello": {Name: "Othello", Type: "tragedy"},
 	}
 
-	bill := statement(inv, _plays)
+	bill := statement(inv, plays)
 	fmt.Println(bill)
 }

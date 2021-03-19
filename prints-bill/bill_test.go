@@ -12,13 +12,13 @@ func TestPrintBill(t *testing.T) {
 			{PlayID: "as-like", Audience: 35},
 			{PlayID: "othello", Audience: 40},
 		}}
-	_plays := Plays{
+	plays := Plays{
 		"hamlet":  {Name: "Hamlet", Type: "tragedy"},
 		"as-like": {Name: "As You Like It", Type: "comedy"},
 		"othello": {Name: "Othello", Type: "tragedy"},
 	}
 
-	bill := statement(inv, _plays)
+	bill := statement(inv, plays)
 
 	exp := `Statement for Bigco
   Hamlet: $650.00 (55 seats)
