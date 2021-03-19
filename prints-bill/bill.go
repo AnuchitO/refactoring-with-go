@@ -23,37 +23,37 @@ type Invoice struct {
 	Performances []Performance `json:"performances"`
 }
 
-type Rate struct {
-	Play     Play
-	Amount   float64
-	Audience int
-	Credit   float64
+type rate struct {
+	play     Play
+	amount   float64
+	audience int
+	credit   float64
 }
 
-type Bill struct {
-	Customer           string
-	Rates              []Rate
-	TotalAmount        float64
-	TotalVolumeCredits float64
+type bill struct {
+	customer           string
+	rates              []rate
+	totalAmount        float64
+	totalVolumeCredits float64
 }
 
 func statement(invoice Invoice, plays Plays) string {
-	var pays []Rate
+	var rates []rate
 	for _, perf := range invoice.Performances {
 		play := playFor(plays, perf)
 		audience := perf.Audience
-		pays = append(pays, Rate{
-			Play:     play,
-			Audience: audience,
-			Amount:   play.amountFor(audience),
-			Credit:   play.volumeCreditsFor(audience),
+		rates = append(rates, rate{
+			play:     play,
+			audience: audience,
+			amount:   play.amountFor(audience),
+			credit:   play.volumeCreditsFor(audience),
 		})
 	}
-	bill := Bill{
-		Customer:           invoice.Customer,
-		Rates:              pays,
-		TotalAmount:        totalAmounts(pays),
-		TotalVolumeCredits: totalVolumeCredits(pays),
+	bill := bill{
+		customer:           invoice.Customer,
+		rates:              rates,
+		totalAmount:        totalAmounts(rates),
+		totalVolumeCredits: totalVolumeCredits(rates),
 	}
 
 	return renderPlainText(bill)
@@ -64,29 +64,29 @@ type comedy struct {
 	kind string
 }
 
-func totalVolumeCredits(pays []Rate) float64 {
+func totalVolumeCredits(rates []rate) float64 {
 	result := 0.0
-	for _, pay := range pays {
-		result += pay.Credit
+	for _, r := range rates {
+		result += r.credit
 	}
 	return result
 }
 
-func totalAmounts(pays []Rate) float64 {
+func totalAmounts(rates []rate) float64 {
 	result := 0.0
-	for _, pay := range pays {
-		result += pay.Amount
+	for _, r := range rates {
+		result += r.amount
 	}
 	return result
 }
 
-func renderPlainText(bill Bill) string {
-	result := fmt.Sprintf("Statement for %s\n", bill.Customer)
-	for _, pay := range bill.Rates {
-		result += fmt.Sprintf("  %s: $%.2f (%d seats)\n", pay.Play.Name(), pay.Amount/100, pay.Audience)
+func renderPlainText(bill bill) string {
+	result := fmt.Sprintf("Statement for %s\n", bill.customer)
+	for _, r := range bill.rates {
+		result += fmt.Sprintf("  %s: $%.2f (%d seats)\n", r.play.Name(), r.amount/100, r.audience)
 	}
-	result += fmt.Sprintf("Amount owed is $%.2f\n", bill.TotalAmount/100)
-	result += fmt.Sprintf("you earned %.0f credits\n", bill.TotalVolumeCredits)
+	result += fmt.Sprintf("Amount owed is $%.2f\n", bill.totalAmount/100)
+	result += fmt.Sprintf("you earned %.0f credits\n", bill.totalVolumeCredits)
 	return result
 }
 
