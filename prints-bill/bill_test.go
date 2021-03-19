@@ -24,7 +24,7 @@ func TestPrintBill(t *testing.T) {
   Hamlet: $650.00 (55 seats)
   As You Like It: $580.00 (35 seats)
   Othello: $500.00 (40 seats)
-Amoucnt owed is $1730.00
+Amount owed is $1730.00
 you earned 47 credits
 `
 
