@@ -25,10 +25,10 @@ type Invoice struct {
 func statement(invoice Invoice, plays Plays) string {
 	var pays []Rate
 	for _, perf := range invoice.Performances {
-		play := playFor(plays, perf)
-		amount := amountFor(play, perf.Audience)
-		credit := volumeCreditsFor(play, perf.Audience)
 		audience := perf.Audience
+		play := playFor(plays, perf)
+		amount := amountFor(play, audience)
+		credit := volumeCreditsFor(play, audience)
 		pays = append(pays, Rate{Play: play, Amount: amount, Audience: audience, Credit: credit})
 	}
 	bill := Bill{
