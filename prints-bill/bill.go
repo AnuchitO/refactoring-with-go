@@ -10,8 +10,7 @@ type comedy struct {
 	Type string
 }
 
-type Plays map[string]XYZ
-type NPlays map[string]XYZ
+type Plays map[string]Play
 
 type Performance struct {
 	PlayID   string `json:"playID"`
@@ -62,7 +61,7 @@ func totalAmounts(pays []Rate) float64 {
 }
 
 type Rate struct {
-	Play     XYZ
+	Play     Play
 	Amount   float64
 	Audience int
 	Credit   float64
@@ -95,7 +94,7 @@ func (play comedy) volumeCreditsFor(audience int) float64 {
 	return credits
 }
 
-func playFor(plays Plays, perf Performance) XYZ {
+func playFor(plays Plays, perf Performance) Play {
 	play := plays[perf.PlayID]
 	return play
 }
@@ -130,7 +129,7 @@ func (play tragedy) name() string {
 	return play.Name
 }
 
-type XYZ interface {
+type Play interface {
 	amountFor(audience int) float64
 	volumeCreditsFor(audience int) float64
 	name() string
