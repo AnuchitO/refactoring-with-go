@@ -28,7 +28,7 @@ func statement(invoice Invoice, plays Plays) string {
 		play := playFor(plays, perf)
 		audience := perf.Audience
 		pays = append(pays, Rate{
-			Play:     play,
+			Play:     play.(Play),  // TODO: fix Name() interface
 			Audience: audience,
 			Amount:   play.amountFor(audience),
 			Credit:   play.volumeCreditsFor(audience),
@@ -94,8 +94,13 @@ func (play Play) volumeCreditsFor(audience int) float64 {
 	return credits
 }
 
-func playFor(plays Plays, perf Performance) Play {
+func playFor(plays Plays, perf Performance) XYZ {
 	return plays[perf.PlayID]
+}
+
+type XYZ interface {
+	amountFor(audience int) float64
+	volumeCreditsFor(audience int) float64
 }
 
 func (play Play) amountFor(audience int) float64 {
