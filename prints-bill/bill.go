@@ -5,34 +5,6 @@ import (
 	"math"
 )
 
-/**
-// plays.json
-{
-   "hamlet":{"name":"Hamlet","type":"tragedy"},
-   "as-like":{"name":"As You Like It","type":"comedy"},
-   "othello":{"name":"Othello","type":"tragedy"}
-}
-
-// invoices.json
-{
-   "customer":"BigCo",
-   "performances":[
-      {
-         "playID":"hamlet",
-         "audience":55
-      },
-      {
-         "playID":"as-like",
-         "audience":35
-      },
-      {
-         "playID":"othello",
-         "audience":40
-      }
-   ]
-}
-*/
-
 type Play map[string]map[string]string
 
 type Performance struct {
@@ -49,7 +21,6 @@ func statement(invoice Invoice, plays Play) string {
 	totalAmount := 0.0
 	volumeCredits := 0.0
 	result := fmt.Sprintf("Statement for %s\n", invoice.Customer)
-	// formate = new Intl.NumberFormat("en-US", {style: "currency", currency: "USD", minimumFractionDigits: 2}).format
 
 	for _, perf := range invoice.Performances {
 		play := plays[perf.PlayID]
@@ -79,13 +50,14 @@ func statement(invoice Invoice, plays Play) string {
 		}
 
 		// print line for this order
-		result += fmt.Sprintf("  %s: %f (%d seats)\n", play["name"], thisAmount/100, perf.Audience ) // TODO: format currency $580.00
+		result += fmt.Sprintf("  %s: $%.2f (%d seats)\n", play["name"], thisAmount/100, perf.Audience) // TODO: format currency $580.00
 		totalAmount += thisAmount
 	}
-	result += fmt.Sprintf("Amoucnt owed is %f \n", totalAmount/100) // TODO: format currency $1,730.00
+	result += fmt.Sprintf("Amoucnt owed is $%.2f\n", totalAmount/100) // TODO: format currency $1,730.00
 	result += fmt.Sprintf("you earned %d credits\n", int(volumeCredits))
 	return result
 }
+
 func main() {
 	inv := Invoice{
 		Customer: "Bigco",
