@@ -74,12 +74,12 @@ func totalAmount(performances []Performance, plays Plays) float64 {
 func totalVolumeCredits(performances []Performance, plays Plays) float64 {
 	credits := 0.0
 	for _, perf := range performances {
-		credits += volumeCreditsFor(perf.Audience, playFor(plays, perf))
+		credits += volumeCreditsFor(playFor(plays, perf), perf.Audience)
 	}
 	return credits
 }
 
-func volumeCreditsFor(audience int, play Play) float64 {
+func volumeCreditsFor(play Play, audience int) float64 {
 	credits := 0.0
 	credits += math.Max(float64(audience-30), 0)
 	// add extra credit for every ten comedy attendees
