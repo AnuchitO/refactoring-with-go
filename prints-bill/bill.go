@@ -85,10 +85,7 @@ func renderPlainText(bill Bill) string {
 }
 
 func (play comedy) volumeCreditsFor(audience int) float64 {
-	credits := 0.0
-	credits += math.Max(float64(audience-30), 0)
-
-	// add extra credit for every ten comedy attendees
+	credits := math.Max(float64(audience-30), 0)
 	credits += math.Floor(float64(audience / 5))
 	return credits
 }
@@ -112,8 +109,7 @@ func (play tragedy) amountFor(audience int) float64 {
 }
 
 func (play tragedy) volumeCreditsFor(audience int) float64 {
-	credits := 0.0
-	credits += math.Max(float64(audience-30), 0)
+	credits := math.Max(float64(audience-30), 0)
 	return credits
 }
 
