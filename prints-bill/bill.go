@@ -5,6 +5,12 @@ import (
 	"math"
 )
 
+type Play interface {
+	amountFor(audience int) float64
+	volumeCreditsFor(audience int) float64
+	Name() string
+}
+
 type Plays map[string]Play
 
 type Performance struct {
@@ -15,6 +21,20 @@ type Performance struct {
 type Invoice struct {
 	Customer     string        `json:"customer"`
 	Performances []Performance `json:"performances"`
+}
+
+type Rate struct {
+	Play     Play
+	Amount   float64
+	Audience int
+	Credit   float64
+}
+
+type Bill struct {
+	Customer           string
+	Rates              []Rate
+	TotalAmount        float64
+	TotalVolumeCredits float64
 }
 
 func statement(invoice Invoice, plays Plays) string {
@@ -40,8 +60,8 @@ func statement(invoice Invoice, plays Plays) string {
 }
 
 type comedy struct {
-	Name string
-	Type string
+	name string
+	kind string
 }
 
 func totalVolumeCredits(pays []Rate) float64 {
@@ -60,24 +80,10 @@ func totalAmounts(pays []Rate) float64 {
 	return result
 }
 
-type Rate struct {
-	Play     Play
-	Amount   float64
-	Audience int
-	Credit   float64
-}
-
-type Bill struct {
-	Customer           string
-	Rates              []Rate
-	TotalAmount        float64
-	TotalVolumeCredits float64
-}
-
 func renderPlainText(bill Bill) string {
 	result := fmt.Sprintf("Statement for %s\n", bill.Customer)
 	for _, pay := range bill.Rates {
-		result += fmt.Sprintf("  %s: $%.2f (%d seats)\n", pay.Play.name(), pay.Amount/100, pay.Audience)
+		result += fmt.Sprintf("  %s: $%.2f (%d seats)\n", pay.Play.Name(), pay.Amount/100, pay.Audience)
 	}
 	result += fmt.Sprintf("Amount owed is $%.2f\n", bill.TotalAmount/100)
 	result += fmt.Sprintf("you earned %.0f credits\n", bill.TotalVolumeCredits)
@@ -96,8 +102,8 @@ func playFor(plays Plays, perf Performance) Play {
 }
 
 type tragedy struct {
-	Name string
-	Type string
+	name string
+	kind string
 }
 
 func (play tragedy) amountFor(audience int) float64 {
@@ -113,18 +119,12 @@ func (play tragedy) volumeCreditsFor(audience int) float64 {
 	return credits
 }
 
-func (play tragedy) name() string {
-	return play.Name
+func (play tragedy) Name() string {
+	return play.name
 }
 
-type Play interface {
-	amountFor(audience int) float64
-	volumeCreditsFor(audience int) float64
-	name() string
-}
-
-func (play comedy) name() string {
-	return play.Name
+func (play comedy) Name() string {
+	return play.name
 }
 
 func (play comedy) amountFor(audience int) float64 {
@@ -146,9 +146,9 @@ func main() {
 		}}
 
 	plays := Plays{
-		"hamlet":  tragedy{Name: "Hamlet", Type: "tragedy"},
-		"as-like": comedy{Name: "As You Like It", Type: "comedy"},
-		"othello": tragedy{Name: "Othello", Type: "tragedy"},
+		"hamlet":  tragedy{name: "Hamlet", kind: "tragedy"},
+		"as-like": comedy{name: "As You Like It", kind: "comedy"},
+		"othello": tragedy{name: "Othello", kind: "tragedy"},
 	}
 
 	bill := statement(inv, plays)
