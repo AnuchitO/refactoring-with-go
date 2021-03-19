@@ -26,7 +26,7 @@ func statement(invoice Invoice, plays Plays) string {
 	var pays []Rate
 	for _, perf := range invoice.Performances {
 		play := playFor(plays, perf)
-		amount := amountFor(perf, play)
+		amount := amountFor(play, perf.Audience)
 		audience := perf.Audience
 		pays = append(pays, Rate{Play: play, Amount: amount, Audience: audience})
 	}
@@ -66,7 +66,7 @@ func renderPlainText(bill Bill) string {
 func totalAmount(performances []Performance, plays Plays) float64 {
 	result := 0.0
 	for _, perf := range performances {
-		result += amountFor(perf, playFor(plays, perf))
+		result += amountFor(playFor(plays, perf), perf.Audience)
 	}
 	return result
 }
@@ -93,21 +93,21 @@ func playFor(plays Plays, perf Performance) Play {
 	return plays[perf.PlayID]
 }
 
-func amountFor(perf Performance, play Play) float64 {
+func amountFor(play Play, audience int) float64 {
 	amount := 0.0
 	kind := play.Type
 	switch kind {
 	case "tragedy":
 		amount = 40000
-		if perf.Audience > 30 {
-			amount += 1000 * (float64(perf.Audience - 30))
+		if audience > 30 {
+			amount += 1000 * (float64(audience - 30))
 		}
 	case "comedy":
 		amount = 30000
-		if perf.Audience > 20 {
-			amount += 10000 + 500*(float64(perf.Audience-20))
+		if audience > 20 {
+			amount += 10000 + 500*(float64(audience-20))
 		}
-		amount += 300 * float64(perf.Audience)
+		amount += 300 * float64(audience)
 	default:
 		panic(fmt.Sprintf("unknow type: %s", kind))
 	}
