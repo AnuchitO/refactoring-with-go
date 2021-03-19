@@ -148,11 +148,6 @@ func (play Play) amountFor(audience int) float64 {
 	amount := 0.0
 	kind := play.Type
 	switch kind {
-	case "tragedy":
-		amount = 40000
-		if audience > 30 {
-			amount += 1000 * (float64(audience - 30))
-		}
 	case "comedy":
 		amount = 30000
 		if audience > 20 {
