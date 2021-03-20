@@ -5,7 +5,12 @@ import (
 	"math"
 )
 
-type Play map[string]map[string]string
+type Play struct {
+	name string
+	kind string
+}
+
+type Plays map[string]Play
 
 type Performance struct {
 	PlayID   string `json:"playID"`
@@ -17,16 +22,16 @@ type Invoice struct {
 	Performances []Performance `json:"performances"`
 }
 
-func statement(invoice Invoice, plays Play) string {
+func statement(invoice Invoice, _plays Plays) string {
 	totalAmount := 0.0
 	volumeCredits := 0.0
 	result := fmt.Sprintf("Statement for %s\n", invoice.Customer)
 
 	for _, perf := range invoice.Performances {
-		play := plays[perf.PlayID]
+		play := _plays[perf.PlayID]
 		thisAmount := 0.0
 
-		switch play["type"] {
+		switch play.kind {
 		case "tragedy":
 			thisAmount = 40000
 			if perf.Audience > 30 {
@@ -39,18 +44,18 @@ func statement(invoice Invoice, plays Play) string {
 			}
 			thisAmount += 300 * float64(perf.Audience)
 		default:
-			panic(fmt.Sprintf("unknow type: %s", play["type"]))
+			panic(fmt.Sprintf("unknow type: %s", play.kind))
 		}
 
 		// add volume credits
 		volumeCredits += math.Max(float64(perf.Audience-30), 0)
 		// add extra credit for every ten comedy attendees
-		if "comedy" == play["type"] {
+		if "comedy" == play.kind {
 			volumeCredits += math.Floor(float64(perf.Audience / 5))
 		}
 
 		// print line for this order
-		result += fmt.Sprintf("  %s: $%.2f (%d seats)\n", play["name"], thisAmount/100, perf.Audience)
+		result += fmt.Sprintf("  %s: $%.2f (%d seats)\n", play.name, thisAmount/100, perf.Audience)
 		totalAmount += thisAmount
 	}
 	result += fmt.Sprintf("Amount owed is $%.2f\n", totalAmount/100)
@@ -66,12 +71,12 @@ func main() {
 			{PlayID: "as-like", Audience: 35},
 			{PlayID: "othello", Audience: 40},
 		}}
-	plays := map[string]map[string]string{
-		"hamlet":  {"name": "Hamlet", "type": "tragedy"},
-		"as-like": {"name": "As You Like It", "type": "comedy"},
-		"othello": {"name": "Othello", "type": "tragedy"},
+	_plays := map[string]Play{
+		"hamlet":  {name: "Hamlet", kind: "tragedy"},
+		"as-like": {name: "As You Like It", kind: "comedy"},
+		"othello": {name: "Othello", kind: "tragedy"},
 	}
 
-	bill := statement(inv, plays)
+	bill := statement(inv, _plays)
 	fmt.Println(bill)
 }
