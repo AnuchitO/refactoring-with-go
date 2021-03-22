@@ -1,0 +1,6 @@
+test:
+	go test ./...
+
+test-cover:
+	go test -coverprofile cover.html ./...
+	go tool cover -html=cover.html
