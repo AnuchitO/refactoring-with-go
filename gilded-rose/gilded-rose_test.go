@@ -6,11 +6,13 @@ import (
 	"testing"
 )
 
+type Cases struct {
+	inputs  []*Item
+	outputs []*Item
+}
+
 func TestFixture(t *testing.T) {
-	cases := []struct {
-		inputs  []*Item
-		outputs []*Item
-	}{
+	cases := []Cases{
 		{inputs: []*Item{{"+5 Dexterity Vest", 10, 20}}, outputs: []*Item{{"+5 Dexterity Vest", 10 - 1, 20 - 1}}},
 		{inputs: []*Item{{"Aged Brie", 2, 0}}, outputs: []*Item{{"Aged Brie", 2 - 1, 1}}},
 		{inputs: []*Item{{"Elixir of the Mongoose", 5, 7}}, outputs: []*Item{{"Elixir of the Mongoose", 5 -1, 6}}},
@@ -22,22 +24,11 @@ func TestFixture(t *testing.T) {
 		//{inputs: []*Item{{"Conjured Mana Cake", 3, 6}},  outputs: []*Item{{"Conjured Mana Cake", 3-1, 6-2}}}, // TODO: implement new requirement
 	}
 
-	for i, c := range cases {
-
-		UpdateQuality(c.inputs)
-
-		if !reflect.DeepEqual(c.inputs, c.outputs) {
-			t.Errorf("test nubmer #%d not match : \n%#v", i, pretty.Diff(c.inputs, c.outputs))
-		}
-	}
-
+	assert(t, cases)
 }
 
 func TestNormalItems(t *testing.T) {
-	cases := []struct {
-		inputs  []*Item
-		outputs []*Item
-	}{
+	cases := []Cases{
 		{inputs: []*Item{{"+5 Dexterity Vest", 5 ,15}}, outputs: []*Item{{"+5 Dexterity Vest", 4 ,14}}},
 		{inputs: []*Item{{"+5 Dexterity Vest", 4 ,14}}, outputs: []*Item{{"+5 Dexterity Vest", 3 ,13}}},
 		{inputs: []*Item{{"+5 Dexterity Vest", 3 ,13}}, outputs: []*Item{{"+5 Dexterity Vest", 2 ,12}}},
@@ -51,12 +42,16 @@ func TestNormalItems(t *testing.T) {
 		{inputs: []*Item{{"+5 Dexterity Vest", -5, 0}}, outputs: []*Item{{"+5 Dexterity Vest", -6, 0}}},
 	}
 
+	assert(t, cases)
+}
+
+func assert(t *testing.T, cases []Cases) {
 	for i, c := range cases {
 
 		UpdateQuality(c.inputs)
 
 		if !reflect.DeepEqual(c.inputs, c.outputs) {
-			t.Errorf("test nubmer #%d not match : \n%#v", i, pretty.Diff(c.inputs, c.outputs))
+			t.Errorf("test %s nubmer #%d not match : \n%#v", t.Name(), i, pretty.Diff(c.inputs, c.outputs))
 		}
 	}
 }
