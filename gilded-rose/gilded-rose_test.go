@@ -65,7 +65,7 @@ func TestUpdateQuality(t *testing.T) {
 		assert(t, cases)
 	})
 
-	t.Run("Sulfuras items", func(t *testing.T) {
+	t.Run("Sulfuras, Hand of Ragnaros items", func(t *testing.T) {
 
 		cases := []Cases{
 			{inputs: []*Item{{"Sulfuras, Hand of Ragnaros", 0 ,80}}, outputs: []*Item{{"Sulfuras, Hand of Ragnaros", 0 ,80}}},
@@ -74,6 +74,31 @@ func TestUpdateQuality(t *testing.T) {
 
 		assert(t, cases)
 	})
+
+	t.Run("Backstage passes to a TAFKAL80ETC concert items", func(t *testing.T) {
+
+		cases := []Cases{
+			{inputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 12, 23}}, outputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 11, 24}}},
+			{inputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 11, 24}}, outputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 10, 25}}},
+			{inputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 10, 25}}, outputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 9, 27}}},
+			{inputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 9, 27}}, outputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 8, 29}}},
+			{inputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 8, 29}}, outputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 7, 31}}},
+			{inputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 7, 31}}, outputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 6, 33}}},
+			{inputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 6, 33}}, outputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 5, 35}}},
+			{inputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 5, 35}}, outputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 4, 38}}},
+			{inputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 4, 38}}, outputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 3, 41}}},
+			{inputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 3, 41}}, outputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 2, 44}}},
+			{inputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 2, 44}}, outputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 1, 47}}},
+			{inputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 1, 47}}, outputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 0, 50}}},
+			{inputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", 0, 50}}, outputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", -1, 0}}},
+			{inputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", -1, 0}}, outputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", -2, 0}}},
+			{inputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", -2, 0}}, outputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", -3, 0}}},
+			{inputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", -3, 0}}, outputs: []*Item{{"Backstage passes to a TAFKAL80ETC concert", -4, 0}}},
+		}
+
+		assert(t, cases)
+	})
+
 
 }
 
