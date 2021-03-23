@@ -11,22 +11,29 @@ func UpdateQuality(items []*Item) {
 			continue
 		}
 
-		if item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert" {
+		// Update Quality
+		if item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert" { // is normal item
 			updateQuality(item, item.quality-1)
-		} else {
+		}
+
+		if item.name == "Backstage passes to a TAFKAL80ETC concert" {
 			updateQuality(item, item.quality+1)
-			if item.name == "Backstage passes to a TAFKAL80ETC concert" {
-				if item.sellIn < 11 {
-					updateQuality(item, item.quality+1)
-				}
-				if item.sellIn < 6 {
-					updateQuality(item, item.quality+1)
-				}
+			if item.sellIn < 11 {
+				updateQuality(item, item.quality+1)
+			}
+			if item.sellIn < 6 {
+				updateQuality(item, item.quality+1)
 			}
 		}
 
+		if item.name == "Aged Brie" {
+			updateQuality(item, item.quality+1)
+		}
+
+		// decrease sellIn
 		item.sellIn = item.sellIn - 1
 
+		// updateQuality after sellIn
 		if item.sellIn < 0 {
 			if item.name != "Aged Brie" {
 				if item.name != "Backstage passes to a TAFKAL80ETC concert" {
