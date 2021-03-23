@@ -68,8 +68,8 @@ func TestUpdateQuality(t *testing.T) {
 	t.Run("Sulfuras, Hand of Ragnaros items", func(t *testing.T) {
 
 		cases := []Cases{
-			{inputs: []*Item{{"Sulfuras, Hand of Ragnaros", 0 ,80}}, outputs: []*Item{{"Sulfuras, Hand of Ragnaros", 0 ,80}}},
-			{inputs: []*Item{{"Sulfuras, Hand of Ragnaros", -1 ,80}}, outputs: []*Item{{"Sulfuras, Hand of Ragnaros", -1 ,80}}},
+			{inputs: []*Item{{"Sulfuras, Hand of Ragnaros", 0, 80}}, outputs: []*Item{{"Sulfuras, Hand of Ragnaros", 0, 80}}},
+			{inputs: []*Item{{"Sulfuras, Hand of Ragnaros", -1, 80}}, outputs: []*Item{{"Sulfuras, Hand of Ragnaros", -1, 80}}},
 		}
 
 		assert(t, cases)
