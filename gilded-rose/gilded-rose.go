@@ -17,11 +17,15 @@ func UpdateQuality(items []*Item) {
 		}
 
 		if item.name == "Backstage passes to a TAFKAL80ETC concert" {
-			updateQuality(item, item.quality+1)
-			if item.sellIn < 11 {
-				updateQuality(item, item.quality+1)
+			if item.sellIn >= 0 && item.sellIn <= 5 {
+				updateQuality(item, item.quality+3)
 			}
-			if item.sellIn < 6 {
+
+			if item.sellIn >= 6 && item.sellIn < 11 {
+				updateQuality(item, item.quality+2)
+			}
+
+			if item.sellIn >= 11 {
 				updateQuality(item, item.quality+1)
 			}
 		}
