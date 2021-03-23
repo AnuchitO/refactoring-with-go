@@ -41,6 +41,11 @@ func TestUpdateQuality(t *testing.T) {
 			{inputs: []*Item{{"+5 Dexterity Vest", -3, 4}}, outputs: []*Item{{"+5 Dexterity Vest", -4, 2}}},
 			{inputs: []*Item{{"+5 Dexterity Vest", -4, 2}}, outputs: []*Item{{"+5 Dexterity Vest", -5, 0}}},
 			{inputs: []*Item{{"+5 Dexterity Vest", -5, 0}}, outputs: []*Item{{"+5 Dexterity Vest", -6, 0}}},
+
+			{inputs: []*Item{{"Elixir of the Mongoose", 1, 3}}, outputs: []*Item{{"Elixir of the Mongoose", 0, 2}}},
+			{inputs: []*Item{{"Elixir of the Mongoose", 0, 2}}, outputs: []*Item{{"Elixir of the Mongoose", -1, 0}}},
+			{inputs: []*Item{{"Elixir of the Mongoose", -1, 0}}, outputs: []*Item{{"Elixir of the Mongoose", -2, 0}}},
+			{inputs: []*Item{{"Elixir of the Mongoose", -2, 0}}, outputs: []*Item{{"Elixir of the Mongoose", -3, 0}}},
 		}
 
 		assert(t, cases)
@@ -49,12 +54,12 @@ func TestUpdateQuality(t *testing.T) {
 	t.Run("Aged Brie items", func(t *testing.T) {
 
 		cases := []Cases{
-			{inputs: []*Item{{"Aged Brie", 2 ,0}}, outputs: []*Item{{"Aged Brie", 1 ,1}}},
-			{inputs: []*Item{{"Aged Brie", 1 ,1}}, outputs: []*Item{{"Aged Brie", 0 ,2}}},
-			{inputs: []*Item{{"Aged Brie", 0 ,2}}, outputs: []*Item{{"Aged Brie", -1 ,4}}},
-			{inputs: []*Item{{"Aged Brie", -1 ,4}}, outputs: []*Item{{"Aged Brie", -2 ,6}}},
-			{inputs: []*Item{{"Aged Brie", -2 ,6}}, outputs: []*Item{{"Aged Brie", -3 ,8}}},
-			{inputs: []*Item{{"Aged Brie", -3 ,8}}, outputs: []*Item{{"Aged Brie", -4 ,10}}},
+			{inputs: []*Item{{"Aged Brie", 2, 0}}, outputs: []*Item{{"Aged Brie", 1, 1}}},
+			{inputs: []*Item{{"Aged Brie", 1, 1}}, outputs: []*Item{{"Aged Brie", 0, 2}}},
+			{inputs: []*Item{{"Aged Brie", 0, 2}}, outputs: []*Item{{"Aged Brie", -1, 4}}},
+			{inputs: []*Item{{"Aged Brie", -1, 4}}, outputs: []*Item{{"Aged Brie", -2, 6}}},
+			{inputs: []*Item{{"Aged Brie", -2, 6}}, outputs: []*Item{{"Aged Brie", -3, 8}}},
+			{inputs: []*Item{{"Aged Brie", -3, 8}}, outputs: []*Item{{"Aged Brie", -4, 10}}},
 		}
 
 		assert(t, cases)
