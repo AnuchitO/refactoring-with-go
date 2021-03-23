@@ -99,6 +99,10 @@ func TestUpdateQuality(t *testing.T) {
 		assert(t, cases)
 	})
 
+	t.Run("Conjured items", func(t *testing.T) {
+		t.Skip("TODO: implement new requirements")
+	})
+
 
 }
 
