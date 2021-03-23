@@ -6,9 +6,7 @@ type Item struct {
 }
 
 func UpdateQuality(items []*Item) {
-	for i := 0; i < len(items); i++ {
-		item := items[i]
-
+	for _, item := range items {
 		if item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert" {
 			if item.quality > 0 {
 				if item.name != "Sulfuras, Hand of Ragnaros" {
