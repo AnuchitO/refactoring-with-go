@@ -96,12 +96,16 @@ func statement(invoice Invoice, plays Plays) string {
 		rates = append(rates, Rate{Play: play, Amount: amount, Audience: audience})
 	}
 
-	result := fmt.Sprintf("Statement for %s\n", invoice.Customer)
+	customer := invoice.Customer
+	totalAmount := totalAmount(plays, invoice)
+	totalVolumeCredits := totalVolumeCredits(plays, invoice)
+
+	result := fmt.Sprintf("Statement for %s\n", customer)
 	for _, rate := range rates {
 		result += fmt.Sprintf("  %s: $%.2f (%d seats)\n", rate.Play.Name, rate.Amount/100, rate.Audience)
 	}
-	result += fmt.Sprintf("Amount owed is $%.2f\n", totalAmount(plays, invoice)/100)
-	result += fmt.Sprintf("you earned %.0f credits\n", totalVolumeCredits(plays, invoice))
+	result += fmt.Sprintf("Amount owed is $%.2f\n", totalAmount/100)
+	result += fmt.Sprintf("you earned %.0f credits\n", totalVolumeCredits)
 	return result
 }
 
