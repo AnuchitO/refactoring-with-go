@@ -35,25 +35,25 @@ func playFor(plays Plays, perf Performance) Play {
 }
 
 func amountFor(plays Plays, perf Performance) float64 {
-	thisAmount := 0.0
+	amount := 0.0
 
 	switch playKind(playFor(plays, perf)) {
 	case "tragedy":
-		thisAmount = 40000
+		amount = 40000
 		if perf.Audience > 30 {
-			thisAmount += 1000 * (float64(perf.Audience - 30))
+			amount += 1000 * (float64(perf.Audience - 30))
 		}
 	case "comedy":
-		thisAmount = 30000
+		amount = 30000
 		if perf.Audience > 20 {
-			thisAmount += 10000 + 500*(float64(perf.Audience-20))
+			amount += 10000 + 500*(float64(perf.Audience-20))
 		}
-		thisAmount += 300 * float64(perf.Audience)
+		amount += 300 * float64(perf.Audience)
 	default:
 		panic(fmt.Sprintf("unknow type: %s", playKind(playFor(plays, perf))))
 	}
 
-	return thisAmount
+	return amount
 }
 
 func statement(invoice Invoice, plays Plays) string {
