@@ -57,7 +57,8 @@ func amountFor(plays Plays, perf Performance) float64 {
 }
 
 func volumeCreditsFor(plays Plays, perf Performance) float64 {
-	kind := playFor(plays, perf).Kind
+	play := playFor(plays, perf)
+	kind := play.Kind
 	audience := perf.Audience
 
 	credits := 0.0
