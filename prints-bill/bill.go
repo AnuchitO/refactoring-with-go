@@ -74,11 +74,11 @@ func totalAmount(plays Plays, inv Invoice) float64 {
 }
 
 func totalVolumeCredits(plays Plays, inv Invoice) float64 {
-	volumeCredits := 0.0
+	credits := 0.0
 	for _, perf := range inv.Performances {
-		volumeCredits += volumeCreditsFor(plays, perf)
+		credits += volumeCreditsFor(plays, perf)
 	}
-	return volumeCredits
+	return credits
 }
 
 func statement(invoice Invoice, plays Plays) string {
