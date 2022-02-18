@@ -119,6 +119,10 @@ func statement(invoice Invoice, plays Plays) string {
 	return result
 }
 
+func renderPlainText(bill Bill) string {
+	return ""
+}
+
 func main() {
 	inv := Invoice{
 		Customer: "Bigco",
