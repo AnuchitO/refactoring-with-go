@@ -72,11 +72,7 @@ func statement(invoice Invoice, plays Plays) string {
 
 	for _, perf := range invoice.Performances {
 		// add volume credits
-		volumeCredits += math.Max(float64(perf.Audience-30), 0)
-		// add extra credit for every ten comedy attendees
-		if "comedy" == playKind(playFor(plays, perf)) {
-			volumeCredits += math.Floor(float64(perf.Audience / 5))
-		}
+		volumeCredits += volumeCreditsFor(plays, perf)
 
 		// print line for this order
 		result += fmt.Sprintf("  %s: $%.2f (%d seats)\n", playName(playFor(plays, perf)), amountFor(plays, perf)/100, perf.Audience)
