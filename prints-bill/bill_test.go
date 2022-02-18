@@ -14,7 +14,7 @@ func TestPrintBill(t *testing.T) {
 		}}
 	plays := Plays{
 		"hamlet":  Play{Name: "Hamlet", Kind: "tragedy"},
-		"as-like": Play{Name: "As You Like It", Kind: "comedy"},
+		"as-like": Comedy{Name: "As You Like It"},
 		"othello": Play{Name: "Othello", Kind: "tragedy"},
 	}
 
