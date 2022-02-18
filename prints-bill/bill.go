@@ -88,7 +88,6 @@ type Rate struct {
 }
 
 func statement(invoice Invoice, plays Plays) string {
-	result := fmt.Sprintf("Statement for %s\n", invoice.Customer)
 	var rates []Rate
 	for _, perf := range invoice.Performances {
 		play := playFor(plays, perf)
@@ -97,12 +96,9 @@ func statement(invoice Invoice, plays Plays) string {
 		rates = append(rates, Rate{Play: play, Amount: amount, Audience: audience})
 	}
 
-	for _, perf := range invoice.Performances {
-		// Introducing Rate structure to decouple calculation from presentation
-		play := playFor(plays, perf)
-		amount := amountFor(plays, perf)
-		audience := perf.Audience
-		result += fmt.Sprintf("  %s: $%.2f (%d seats)\n", play.Name, amount/100, audience)
+	result := fmt.Sprintf("Statement for %s\n", invoice.Customer)
+	for _, rate := range rates {
+		result += fmt.Sprintf("  %s: $%.2f (%d seats)\n", rate.Play.Name, rate.Amount/100, rate.Audience)
 	}
 	result += fmt.Sprintf("Amount owed is $%.2f\n", totalAmount(plays, invoice)/100)
 	result += fmt.Sprintf("you earned %.0f credits\n", totalVolumeCredits(plays, invoice))
