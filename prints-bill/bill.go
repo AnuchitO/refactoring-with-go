@@ -72,14 +72,22 @@ func totalAmount(rates []Rate) float64 {
 	return result
 }
 
-func totalVolumeCredits(plays Plays, performances []Performance) float64 {
-	credits := 0.0
-	for _, perf := range performances {
-		play := playFor(plays, perf)
-		audience := perf.Audience
-		credits += volumeCreditsFor(play, audience)
+// func totalVolumeCredits(plays Plays, performances []Performance) float64 {
+// 	credits := 0.0
+// 	for _, perf := range performances {
+// 		play := playFor(plays, perf)
+// 		audience := perf.Audience
+// 		credits += volumeCreditsFor(play, audience)
+// 	}
+// 	return credits
+// }
+
+func totalVolumeCredits(rates []Rate) float64 {
+	result := 0.0
+	for _, r := range rates {
+		result += r.Credits
 	}
-	return credits
+	return result
 }
 
 type Rate struct {
@@ -110,7 +118,7 @@ func statement(invoice Invoice, plays Plays) string {
 		Customer:           invoice.Customer,
 		Rates:              rates,
 		TotalAmount:        totalAmount(rates),
-		TotalVolumeCredits: totalVolumeCredits(plays, invoice.Performances),
+		TotalVolumeCredits: totalVolumeCredits(rates),
 	}
 
 	return renderPlainText(bill)
