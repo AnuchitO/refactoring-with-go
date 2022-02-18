@@ -107,19 +107,19 @@ func statement(invoice Invoice, plays Plays) string {
 	totalAmount := totalAmount(plays, invoice)
 	totalVolumeCredits := totalVolumeCredits(plays, invoice)
 
-	_ = Bill{
+	bill := Bill{
 		Customer:           customer,
 		Rates:              rates,
 		TotalAmount:        totalAmount,
 		TotalVolumeCredits: totalVolumeCredits,
 	}
 
-	result := fmt.Sprintf("Statement for %s\n", customer)
-	for _, rate := range rates {
+	result := fmt.Sprintf("Statement for %s\n", bill.Customer)
+	for _, rate := range bill.Rates {
 		result += fmt.Sprintf("  %s: $%.2f (%d seats)\n", rate.Play.Name, rate.Amount/100, rate.Audience)
 	}
-	result += fmt.Sprintf("Amount owed is $%.2f\n", totalAmount/100)
-	result += fmt.Sprintf("you earned %.0f credits\n", totalVolumeCredits)
+	result += fmt.Sprintf("Amount owed is $%.2f\n", bill.TotalAmount/100)
+	result += fmt.Sprintf("you earned %.0f credits\n", bill.TotalVolumeCredits)
 	return result
 }
 
