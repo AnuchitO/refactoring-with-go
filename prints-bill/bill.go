@@ -22,6 +22,12 @@ type Invoice struct {
 	Performances []Performance `json:"performances"`
 }
 
+type XYZ interface {
+	playName() string
+	amountFor(audience int) float64
+	volumeCreditsFor(audience int) float64
+}
+
 func playKind(play Play) string {
 	return play.Kind
 }
@@ -30,7 +36,7 @@ func (play Play) playName() string {
 	return play.Name
 }
 
-func playFor(plays Plays, perf Performance) Play {
+func playFor(plays Plays, perf Performance) XYZ {
 	return plays[perf.PlayID]
 }
 
@@ -81,7 +87,7 @@ func totalVolumeCredits(rates []Rate) float64 {
 }
 
 type Rate struct {
-	Play     Play
+	Play     XYZ
 	Amount   float64
 	Audience int
 	Credits  float64
