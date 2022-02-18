@@ -5,12 +5,12 @@ import (
 	"math"
 )
 
-type Play map[string]map[string]string
-
-type Plays map[string]struct {
+type Play struct {
 	Name string
 	Kind string
 }
+
+type Plays map[string]Play
 
 type Performance struct {
 	PlayID   string `json:"playID"`
