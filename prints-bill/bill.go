@@ -99,9 +99,12 @@ func statement(invoice Invoice, plays Plays) string {
 	for _, perf := range invoice.Performances {
 		play := playFor(plays, perf)
 		audience := perf.Audience
-		amount := play.amountFor(audience)
-		credits := play.volumeCreditsFor(audience)
-		rates = append(rates, Rate{Play: play, Amount: amount, Audience: audience, Credits: credits})
+		rates = append(rates, Rate{
+			Play:     play,
+			Audience: audience,
+			Amount:   play.amountFor(audience),
+			Credits:  play.volumeCreditsFor(audience),
+		})
 	}
 
 	bill := Bill{
