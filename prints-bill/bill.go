@@ -103,15 +103,11 @@ func statement(invoice Invoice, plays Plays) string {
 		rates = append(rates, Rate{Play: play, Amount: amount, Audience: audience})
 	}
 
-	customer := invoice.Customer
-	totalAmount := totalAmount(plays, invoice)
-	totalVolumeCredits := totalVolumeCredits(plays, invoice)
-
 	bill := Bill{
-		Customer:           customer,
+		Customer:           invoice.Customer,
 		Rates:              rates,
-		TotalAmount:        totalAmount,
-		TotalVolumeCredits: totalVolumeCredits,
+		TotalAmount:        totalAmount(plays, invoice),
+		TotalVolumeCredits: totalVolumeCredits(plays, invoice),
 	}
 
 	result := fmt.Sprintf("Statement for %s\n", bill.Customer)
