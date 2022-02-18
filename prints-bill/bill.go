@@ -64,16 +64,6 @@ func volumeCreditsFor(play Play, audience int) float64 {
 	return credits
 }
 
-// func totalAmount(plays Plays, performances []Performance) float64 {
-// 	amounts := 0.0
-// 	for _, perf := range performances {
-// 		play := playFor(plays, perf)
-// 		audience := perf.Audience
-// 		amounts += amountFor(play, audience)
-// 	}
-// 	return amounts
-// }
-
 func totalAmount(rates []Rate) float64 {
 	result := 0.0
 	for _, r := range rates {
