@@ -84,6 +84,7 @@ func totalVolumeCredits(plays Plays, inv Invoice) float64 {
 func statement(invoice Invoice, plays Plays) string {
 	result := fmt.Sprintf("Statement for %s\n", invoice.Customer)
 	for _, perf := range invoice.Performances {
+		// Introducing Rate structure to decouple calculation from presentation
 		play := playFor(plays, perf)
 		amount := amountFor(plays, perf)
 		audience := perf.Audience
