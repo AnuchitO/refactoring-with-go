@@ -5,7 +5,7 @@ import (
 	"math"
 )
 
-type Play struct {
+type Tragedy struct {
 	Name string
 	Kind string
 }
@@ -28,11 +28,11 @@ type Player interface {
 	volumeCreditsFor(audience int) float64
 }
 
-func playKind(play Play) string {
+func playKind(play Tragedy) string {
 	return play.Kind
 }
 
-func (play Play) playName() string {
+func (play Tragedy) playName() string {
 	return play.Name
 }
 
@@ -40,7 +40,7 @@ func playFor(plays Plays, perf Performance) Player {
 	return plays[perf.PlayID]
 }
 
-func (play Play) amountFor(audience int) float64 {
+func (play Tragedy) amountFor(audience int) float64 {
 	amount := 0.0
 	switch play.Kind {
 	case "tragedy":
@@ -48,12 +48,6 @@ func (play Play) amountFor(audience int) float64 {
 		if audience > 30 {
 			amount += 1000 * (float64(audience - 30))
 		}
-	case "comedy":
-		amount = 30000
-		if audience > 20 {
-			amount += 10000 + 500*(float64(audience-20))
-		}
-		amount += 300 * float64(audience)
 	default:
 		panic(fmt.Sprintf("unknow type: %s", play.Kind))
 	}
@@ -61,12 +55,9 @@ func (play Play) amountFor(audience int) float64 {
 	return amount
 }
 
-func (play Play) volumeCreditsFor(audience int) float64 {
+func (play Tragedy) volumeCreditsFor(audience int) float64 {
 	credits := 0.0
 	credits += math.Max(float64(audience-30), 0)
-	if "comedy" == play.Kind {
-		credits += math.Floor(float64(audience / 5))
-	}
 	return credits
 }
 
@@ -142,9 +133,9 @@ func main() {
 			{PlayID: "othello", Audience: 40},
 		}}
 	plays := Plays{
-		"hamlet":  Play{Name: "Hamlet", Kind: "tragedy"},
+		"hamlet":  Tragedy{Name: "Hamlet", Kind: "tragedy"},
 		"as-like": Comedy{Name: "As You Like It"},
-		"othello": Play{Name: "Othello", Kind: "tragedy"},
+		"othello": Tragedy{Name: "Othello", Kind: "tragedy"},
 	}
 
 	bill := statement(inv, plays)
