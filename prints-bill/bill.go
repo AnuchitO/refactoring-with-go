@@ -40,10 +40,9 @@ func statement(invoice Invoice, plays Plays) string {
 	result := fmt.Sprintf("Statement for %s\n", invoice.Customer)
 
 	for _, perf := range invoice.Performances {
-		play := playFor(plays, perf)
 		thisAmount := 0.0
 
-		switch playKind(play) {
+		switch playKind(playFor(plays, perf)) {
 		case "tragedy":
 			thisAmount = 40000
 			if perf.Audience > 30 {
@@ -56,18 +55,18 @@ func statement(invoice Invoice, plays Plays) string {
 			}
 			thisAmount += 300 * float64(perf.Audience)
 		default:
-			panic(fmt.Sprintf("unknow type: %s", playKind(play)))
+			panic(fmt.Sprintf("unknow type: %s", playKind(playFor(plays, perf))))
 		}
 
 		// add volume credits
 		volumeCredits += math.Max(float64(perf.Audience-30), 0)
 		// add extra credit for every ten comedy attendees
-		if "comedy" == playKind(play) {
+		if "comedy" == playKind(playFor(plays, perf)) {
 			volumeCredits += math.Floor(float64(perf.Audience / 5))
 		}
 
 		// print line for this order
-		result += fmt.Sprintf("  %s: $%.2f (%d seats)\n", playName(play), thisAmount/100, perf.Audience)
+		result += fmt.Sprintf("  %s: $%.2f (%d seats)\n", playName(playFor(plays, perf)), thisAmount/100, perf.Audience)
 		totalAmount += thisAmount
 	}
 	result += fmt.Sprintf("Amount owed is $%.2f\n", totalAmount/100)
