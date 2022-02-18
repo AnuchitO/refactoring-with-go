@@ -26,7 +26,7 @@ func statement(invoice Invoice, plays Play) string {
 		play := plays[perf.PlayID]
 		thisAmount := 0.0
 
-		switch play["type"] {
+		switch play["kind"] {
 		case "tragedy":
 			thisAmount = 40000
 			if perf.Audience > 30 {
@@ -39,13 +39,13 @@ func statement(invoice Invoice, plays Play) string {
 			}
 			thisAmount += 300 * float64(perf.Audience)
 		default:
-			panic(fmt.Sprintf("unknow type: %s", play["type"]))
+			panic(fmt.Sprintf("unknow type: %s", play["kind"]))
 		}
 
 		// add volume credits
 		volumeCredits += math.Max(float64(perf.Audience-30), 0)
 		// add extra credit for every ten comedy attendees
-		if "comedy" == play["type"] {
+		if "comedy" == play["kind"] {
 			volumeCredits += math.Floor(float64(perf.Audience / 5))
 		}
 
@@ -67,9 +67,9 @@ func main() {
 			{PlayID: "othello", Audience: 40},
 		}}
 	plays := map[string]map[string]string{
-		"hamlet":  {"name": "Hamlet", "type": "tragedy"},
-		"as-like": {"name": "As You Like It", "type": "comedy"},
-		"othello": {"name": "Othello", "type": "tragedy"},
+		"hamlet":  {"name": "Hamlet", "kind": "tragedy"},
+		"as-like": {"name": "As You Like It", "kind": "comedy"},
+		"othello": {"name": "Othello", "kind": "tragedy"},
 	}
 
 	bill := statement(inv, plays)
