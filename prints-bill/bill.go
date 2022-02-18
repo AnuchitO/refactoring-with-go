@@ -34,11 +34,8 @@ func playFor(plays Plays, perf Performance) Play {
 	return plays[perf.PlayID]
 }
 
-func amountFor(plays Plays, perf Performance) float64 {
+func amountFor(play Play, audience int) float64 {
 	amount := 0.0
-	play := playFor(plays, perf)
-	audience := perf.Audience
-
 	switch play.Kind {
 	case "tragedy":
 		amount = 40000
@@ -70,7 +67,8 @@ func volumeCreditsFor(play Play, audience int) float64 {
 func totalAmount(plays Plays, performances []Performance) float64 {
 	amounts := 0.0
 	for _, perf := range performances {
-		amounts += amountFor(plays, perf)
+		play := playFor(plays, perf)
+		amounts += amountFor(play, perf.Audience)
 	}
 	return amounts
 }
@@ -101,7 +99,7 @@ func statement(invoice Invoice, plays Plays) string {
 	var rates []Rate
 	for _, perf := range invoice.Performances {
 		play := playFor(plays, perf)
-		amount := amountFor(plays, perf)
+		amount := amountFor(play, perf.Audience)
 		audience := perf.Audience
 		rates = append(rates, Rate{Play: play, Amount: amount, Audience: audience})
 	}
