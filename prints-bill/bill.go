@@ -84,8 +84,8 @@ func totalVolumeCredits(plays Plays, inv Invoice) float64 {
 func statement(invoice Invoice, plays Plays) string {
 	result := fmt.Sprintf("Statement for %s\n", invoice.Customer)
 	for _, perf := range invoice.Performances {
-		// print line for this order
-		result += fmt.Sprintf("  %s: $%.2f (%d seats)\n", playName(playFor(plays, perf)), amountFor(plays, perf)/100, perf.Audience)
+		play := playFor(plays, perf)
+		result += fmt.Sprintf("  %s: $%.2f (%d seats)\n", play.Name, amountFor(plays, perf)/100, perf.Audience)
 	}
 	result += fmt.Sprintf("Amount owed is $%.2f\n", totalAmount(plays, invoice)/100)
 	result += fmt.Sprintf("you earned %.0f credits\n", totalVolumeCredits(plays, invoice))
