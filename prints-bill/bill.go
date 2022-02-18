@@ -30,13 +30,17 @@ func playName(play Play) string {
 	return play.Name
 }
 
+func playFor(plays Plays, perf Performance) Play {
+	return plays[perf.PlayID]
+}
+
 func statement(invoice Invoice, plays Plays) string {
 	totalAmount := 0.0
 	volumeCredits := 0.0
 	result := fmt.Sprintf("Statement for %s\n", invoice.Customer)
 
 	for _, perf := range invoice.Performances {
-		play := plays[perf.PlayID]
+		play := playFor(plays, perf)
 		thisAmount := 0.0
 
 		switch playKind(play) {
