@@ -56,6 +56,15 @@ func amountFor(plays Plays, perf Performance) float64 {
 	return amount
 }
 
+func volumeCreditsFor(plays Plays, perf Performance) float64 {
+	volumeCredits := 0.0
+	volumeCredits += math.Max(float64(perf.Audience-30), 0)
+	if "comedy" == playKind(playFor(plays, perf)) {
+		volumeCredits += math.Floor(float64(perf.Audience / 5))
+	}
+	return volumeCredits
+}
+
 func statement(invoice Invoice, plays Plays) string {
 	totalAmount := 0.0
 	volumeCredits := 0.0
