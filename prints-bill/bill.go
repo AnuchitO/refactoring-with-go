@@ -2,12 +2,7 @@ package main
 
 import (
 	"fmt"
-	"math"
 )
-
-type Tragedy struct {
-	Name string
-}
 
 type Plays map[string]Player
 
@@ -27,28 +22,9 @@ type Player interface {
 	volumeCreditsFor(audience int) float64
 }
 
-func (play Tragedy) playName() string {
-	return play.Name
-}
 
 func playFor(plays Plays, perf Performance) Player {
 	return plays[perf.PlayID]
-}
-
-func (play Tragedy) amountFor(audience int) float64 {
-	amount := 0.0
-	amount = 40000
-	if audience > 30 {
-		amount += 1000 * (float64(audience - 30))
-	}
-
-	return amount
-}
-
-func (play Tragedy) volumeCreditsFor(audience int) float64 {
-	credits := 0.0
-	credits += math.Max(float64(audience-30), 0)
-	return credits
 }
 
 func totalAmount(rates []Rate) float64 {
