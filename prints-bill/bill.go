@@ -86,6 +86,7 @@ type Rate struct {
 	Play     Play
 	Amount   float64
 	Audience int
+	Credits  float64
 }
 
 type Bill struct {
@@ -101,8 +102,8 @@ func statement(invoice Invoice, plays Plays) string {
 		play := playFor(plays, perf)
 		audience := perf.Audience
 		amount := amountFor(play, audience)
-
-		rates = append(rates, Rate{Play: play, Amount: amount, Audience: audience})
+		credits := volumeCreditsFor(play, audience)
+		rates = append(rates, Rate{Play: play, Amount: amount, Audience: audience, Credits: credits})
 	}
 
 	bill := Bill{
