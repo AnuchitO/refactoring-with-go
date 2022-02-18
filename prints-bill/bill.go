@@ -22,6 +22,10 @@ type Invoice struct {
 	Performances []Performance `json:"performances"`
 }
 
+func playKind(play Play) string {
+	return play.Kind
+}
+
 func statement(invoice Invoice, plays Plays) string {
 	totalAmount := 0.0
 	volumeCredits := 0.0
@@ -31,7 +35,7 @@ func statement(invoice Invoice, plays Plays) string {
 		play := plays[perf.PlayID]
 		thisAmount := 0.0
 
-		switch play.Kind {
+		switch playKind(play) {
 		case "tragedy":
 			thisAmount = 40000
 			if perf.Audience > 30 {
@@ -44,13 +48,13 @@ func statement(invoice Invoice, plays Plays) string {
 			}
 			thisAmount += 300 * float64(perf.Audience)
 		default:
-			panic(fmt.Sprintf("unknow type: %s", play.Kind))
+			panic(fmt.Sprintf("unknow type: %s", playKind(play)))
 		}
 
 		// add volume credits
 		volumeCredits += math.Max(float64(perf.Audience-30), 0)
 		// add extra credit for every ten comedy attendees
-		if "comedy" == play.Kind {
+		if "comedy" == playKind(play) {
 			volumeCredits += math.Floor(float64(perf.Audience / 5))
 		}
 
