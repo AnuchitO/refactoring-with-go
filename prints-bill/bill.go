@@ -87,6 +87,13 @@ type Rate struct {
 	Audience int
 }
 
+type Bill struct {
+	Customer           string
+	Rates              []Rate
+	TotalAmount        float64
+	TotalVolumeCredits float64
+}
+
 func statement(invoice Invoice, plays Plays) string {
 	var rates []Rate
 	for _, perf := range invoice.Performances {
@@ -99,6 +106,13 @@ func statement(invoice Invoice, plays Plays) string {
 	customer := invoice.Customer
 	totalAmount := totalAmount(plays, invoice)
 	totalVolumeCredits := totalVolumeCredits(plays, invoice)
+
+	_ = Bill{
+		Customer:           customer,
+		Rates:              rates,
+		TotalAmount:        totalAmount,
+		TotalVolumeCredits: totalVolumeCredits,
+	}
 
 	result := fmt.Sprintf("Statement for %s\n", customer)
 	for _, rate := range rates {
