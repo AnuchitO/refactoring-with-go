@@ -10,7 +10,7 @@ type Play struct {
 	Kind string
 }
 
-type Plays map[string]Play
+type Plays map[string]Player
 
 type Performance struct {
 	PlayID   string `json:"playID"`
@@ -142,9 +142,9 @@ func main() {
 			{PlayID: "othello", Audience: 40},
 		}}
 	plays := Plays{
-		"hamlet":  {Name: "Hamlet", Kind: "tragedy"},
-		"as-like": {Name: "As You Like It", Kind: "comedy"},
-		"othello": {Name: "Othello", Kind: "tragedy"},
+		"hamlet":  Play{Name: "Hamlet", Kind: "tragedy"},
+		"as-like": Play{Name: "As You Like It", Kind: "comedy"},
+		"othello": Play{Name: "Othello", Kind: "tragedy"},
 	}
 
 	bill := statement(inv, plays)
