@@ -57,9 +57,10 @@ func amountFor(plays Plays, perf Performance) float64 {
 }
 
 func volumeCreditsFor(plays Plays, perf Performance) float64 {
+	kind := playFor(plays, perf).Kind
+
 	credits := 0.0
 	credits += math.Max(float64(perf.Audience-30), 0)
-	kind := playKind(playFor(plays, perf))
 	if "comedy" == kind {
 		credits += math.Floor(float64(perf.Audience / 5))
 	}
