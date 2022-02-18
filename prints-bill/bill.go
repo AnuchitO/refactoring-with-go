@@ -7,7 +7,6 @@ import (
 
 type Tragedy struct {
 	Name string
-	Kind string
 }
 
 type Plays map[string]Player
@@ -26,10 +25,6 @@ type Player interface {
 	playName() string
 	amountFor(audience int) float64
 	volumeCreditsFor(audience int) float64
-}
-
-func playKind(play Tragedy) string {
-	return play.Kind
 }
 
 func (play Tragedy) playName() string {
@@ -128,9 +123,9 @@ func main() {
 			{PlayID: "othello", Audience: 40},
 		}}
 	plays := Plays{
-		"hamlet":  Tragedy{Name: "Hamlet", Kind: "tragedy"},
+		"hamlet":  Tragedy{Name: "Hamlet"},
 		"as-like": Comedy{Name: "As You Like It"},
-		"othello": Tragedy{Name: "Othello", Kind: "tragedy"},
+		"othello": Tragedy{Name: "Othello"},
 	}
 
 	bill := statement(inv, plays)
