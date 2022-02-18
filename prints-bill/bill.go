@@ -81,8 +81,22 @@ func totalVolumeCredits(plays Plays, inv Invoice) float64 {
 	return credits
 }
 
+type Rate struct {
+	Play     Play
+	Amount   float64
+	Audience int
+}
+
 func statement(invoice Invoice, plays Plays) string {
 	result := fmt.Sprintf("Statement for %s\n", invoice.Customer)
+	var rates []Rate
+	for _, perf := range invoice.Performances {
+		play := playFor(plays, perf)
+		amount := amountFor(plays, perf)
+		audience := perf.Audience
+		rates = append(rates, Rate{Play: play, Amount: amount, Audience: audience})
+	}
+
 	for _, perf := range invoice.Performances {
 		// Introducing Rate structure to decouple calculation from presentation
 		play := playFor(plays, perf)
