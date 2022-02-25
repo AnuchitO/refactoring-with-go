@@ -13,18 +13,18 @@ func NewCustomer(name string) Customer {
 		rentals: []Rental{},
 	}
 }
-func (rcvr Customer) AddRental(arg Rental) Customer {
-	rcvr.rentals = append(rcvr.rentals, arg)
-	return rcvr
+func (c Customer) AddRental(arg Rental) Customer {
+	c.rentals = append(c.rentals, arg)
+	return c
 }
-func (rcvr Customer) Name() string {
-	return rcvr.name
+func (c Customer) Name() string {
+	return c.name
 }
-func (rcvr Customer) Statement() string {
+func (c Customer) Statement() string {
 	totalAmount := 0.0
 	frequentRenterPoints := 0
-	result := fmt.Sprintf("%v%v%v", "Rental Record for ", rcvr.Name(), "\n")
-	for _, each := range rcvr.rentals {
+	result := fmt.Sprintf("%v%v%v", "Rental Record for ", c.Name(), "\n")
+	for _, each := range c.rentals {
 		thisAmount := 0.0
 		switch each.Movie().PriceCode() {
 		case REGULAR:
