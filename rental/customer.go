@@ -26,8 +26,12 @@ func (c Customer) Statement() string {
 	result := fmt.Sprintf("Rental Record for %v\n", c.Name())
 	for _, r := range c.rentals {
 		frequentRenterPoints += getFrequentRenterPoints(r)
-		result += fmt.Sprintf("\t%v\t%.1f\n", r.Movie().Title(), r.getCharge())
+	}
+	for _, r := range c.rentals {
 		totalAmount += r.getCharge()
+	}
+	for _, r := range c.rentals {
+		result += fmt.Sprintf("\t%v\t%.1f\n", r.Movie().Title(), r.getCharge())
 	}
 	result += fmt.Sprintf("Amount owed is %.1f\n", totalAmount)
 	result += fmt.Sprintf("You earned %v frequent renter points", frequentRenterPoints)
