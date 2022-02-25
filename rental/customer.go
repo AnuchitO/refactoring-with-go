@@ -17,13 +17,13 @@ func (rcvr Customer) AddRental(arg Rental) Customer {
 	rcvr.rentals = append(rcvr.rentals, arg)
 	return rcvr
 }
-func (rcvr Customer) GetName() string {
+func (rcvr Customer) Name() string {
 	return rcvr.name
 }
 func (rcvr Customer) Statement() string {
 	totalAmount := 0.0
 	frequentRenterPoints := 0
-	result := fmt.Sprintf("%v%v%v", "Rental Record for ", rcvr.GetName(), "\n")
+	result := fmt.Sprintf("%v%v%v", "Rental Record for ", rcvr.Name(), "\n")
 	for _, each := range rcvr.rentals {
 		thisAmount := 0.0
 		switch each.Movie().PriceCode() {
