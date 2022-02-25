@@ -32,11 +32,11 @@ func (c Customer) Statement() string {
 	return result
 }
 
-func totalFrequentRenterPoints(c Customer) (frequentRenterPoints int) {
+func totalFrequentRenterPoints(c Customer) (result int) {
 	for _, r := range c.rentals {
-		frequentRenterPoints += getFrequentRenterPoints(r)
+		result += getFrequentRenterPoints(r)
 	}
-	return frequentRenterPoints
+	return result
 }
 
 func totalCharge(c Customer) (result float64) {
