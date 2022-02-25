@@ -11,9 +11,9 @@ func NewRental(movie Movie, daysRented int) Rental {
 		daysRented: daysRented,
 	}
 }
-func (r Rental) GetDaysRented() int {
+func (r Rental) DaysRented() int {
 	return r.daysRented
 }
-func (r Rental) GetMovie() Movie {
+func (r Rental) Movie() Movie {
 	return r.movie
 }
