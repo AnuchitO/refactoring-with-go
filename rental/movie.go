@@ -16,10 +16,10 @@ func NewMovie(title string, priceCode int) Movie {
 	}
 }
 
-func (m Movie) GetPriceCode() int {
+func (m Movie) PriceCode() int {
 	return m.priceCode
 }
 
-func (m Movie) GetTitle() string {
+func (m Movie) Title() string {
 	return m.title
 }
