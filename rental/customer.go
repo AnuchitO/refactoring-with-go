@@ -21,25 +21,21 @@ func (c Customer) Name() string {
 	return c.name
 }
 func (c Customer) Statement() string {
-	name := c.Name()
-	totalCharges := c.totalCharge()
-	points := c.totalFrequentRenterPoints()
-
-	_ = Record{
+	rc := Record{
 		renter:       c.Name(),
 		rentals:      c.rentals,
 		totalCharges: c.totalCharge(),
 		points:       c.totalFrequentRenterPoints(),
 	}
 
-	result := fmt.Sprintf("Rental Record for %s\n", name)
-	for _, r := range c.rentals {
+	result := fmt.Sprintf("Rental Record for %s\n", rc.renter)
+	for _, r := range rc.rentals {
 		title := r.Movie().Title()
 		charge := r.getCharge() // Pre-mature Rental's method. It should belong to Movie.?
 		result += fmt.Sprintf("\t%s\t%.1f\n", title, charge)
 	}
-	result += fmt.Sprintf("Amount owed is %.1f\n", totalCharges)
-	result += fmt.Sprintf("You earned %v frequent renter points", points)
+	result += fmt.Sprintf("Amount owed is %.1f\n", rc.totalCharges)
+	result += fmt.Sprintf("You earned %v frequent renter points", rc.points)
 	return result
 }
 
