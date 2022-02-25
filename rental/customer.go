@@ -28,7 +28,7 @@ func (c Customer) Statement() string {
 	result := fmt.Sprintf("Rental Record for %s\n", name)
 	for _, r := range c.rentals {
 		title := r.Movie().Title()
-		charge := r.getCharge()
+		charge := r.getCharge() // Pre-mature Rental's method. It should belong to Movie.?
 		result += fmt.Sprintf("\t%s\t%.1f\n", title, charge)
 	}
 	result += fmt.Sprintf("Amount owed is %.1f\n", totalCharges)
