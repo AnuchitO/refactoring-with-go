@@ -25,6 +25,13 @@ func (c Customer) Statement() string {
 	totalCharges := c.totalCharge()
 	points := c.totalFrequentRenterPoints()
 
+	_ = Record{
+		renter:       c.Name(),
+		rentals:      c.rentals,
+		totalCharges: c.totalCharge(),
+		points:       c.totalFrequentRenterPoints(),
+	}
+
 	result := fmt.Sprintf("Rental Record for %s\n", name)
 	for _, r := range c.rentals {
 		title := r.Movie().Title()
