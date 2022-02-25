@@ -37,7 +37,7 @@ func (c Customer) Statement() string {
 func getFrequentRenterPoints(r Rental) (frequentRenterPoints int) {
 	frequentRenterPoints++
 	if r.Movie().PriceCode() == NEW_RELEASE && r.DaysRented() > 1 {
-		frequentRenterPoints++
+		return 2
 	}
 	return frequentRenterPoints
 }
