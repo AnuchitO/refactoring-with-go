@@ -34,12 +34,11 @@ func (c Customer) Statement() string {
 	return result
 }
 
-func getFrequentRenterPoints(r Rental) (frequentRenterPoints int) {
-	frequentRenterPoints++
+func getFrequentRenterPoints(r Rental) int {
 	if r.Movie().PriceCode() == NEW_RELEASE && r.DaysRented() > 1 {
 		return 2
 	}
-	return frequentRenterPoints
+	return 1
 }
 
 func (r Rental) getCharge() (result float64) {
