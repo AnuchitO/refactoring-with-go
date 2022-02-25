@@ -35,7 +35,7 @@ func renderPlainText(rc Record) string {
 	result := fmt.Sprintf("Rental Record for %s\n", rc.renter)
 	for _, r := range rc.rentals {
 		title := r.Movie().Title()
-		charge := r.getCharge(r.Movie(), r.daysRented) // Pre-mature Rental's method. It should belong to Movie.?
+		charge := r.Movie().getCharge(r.daysRented)
 		result += fmt.Sprintf("\t%s\t%.1f\n", title, charge)
 	}
 	result += fmt.Sprintf("Amount owed is %.1f\n", rc.totalCharges)
@@ -48,7 +48,7 @@ func renderHtml(rc Record) string {
 	result += "<table>\n"
 	for _, r := range rc.rentals {
 		title := r.Movie().Title()
-		charge := r.getCharge(r.Movie(), r.daysRented)
+		charge := r.Movie().getCharge(r.daysRented)
 		result += fmt.Sprintf("\t<tr><td>%s</td><td>%.1f</td></tr>\n", title, charge)
 	}
 	result += "</table>\n"
@@ -66,7 +66,7 @@ func (c Customer) totalFrequentRenterPoints() (result int) {
 
 func (c Customer) totalCharge() (result float64) {
 	for _, r := range c.rentals {
-		result += r.getCharge(r.Movie(), r.daysRented)
+		result += r.Movie().getCharge(r.daysRented)
 	}
 	return result
 }
@@ -78,7 +78,7 @@ func (r Rental) getFrequentRenterPoints() int {
 	return 1
 }
 
-func (r Rental) getCharge(m Movie, daysRented int) (result float64) {
+func (m Movie) getCharge(daysRented int) (result float64) {
 	switch m.PriceCode() {
 	case REGULAR:
 		result += 2
