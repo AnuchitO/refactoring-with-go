@@ -15,12 +15,11 @@ func NewMovie(title string, priceCode int) Movie {
 		priceCode: priceCode,
 	}
 }
+
 func (m Movie) GetPriceCode() int {
 	return m.priceCode
 }
+
 func (m Movie) GetTitle() string {
 	return m.title
-}
-func (m Movie) SetPriceCode(arg int) {
-	m.priceCode = arg
 }
