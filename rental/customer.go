@@ -32,7 +32,7 @@ func (c Customer) Statement() string {
 
 func (c Customer) totalFrequentRenterPoints() (result int) {
 	for _, r := range c.rentals {
-		result += getFrequentRenterPoints(r)
+		result += r.getFrequentRenterPoints()
 	}
 	return result
 }
@@ -44,7 +44,7 @@ func (c Customer) totalCharge() (result float64) {
 	return result
 }
 
-func getFrequentRenterPoints(r Rental) int {
+func (r Rental) getFrequentRenterPoints() int {
 	if r.Movie().PriceCode() == NEW_RELEASE && r.DaysRented() > 1 {
 		return 2
 	}
