@@ -25,16 +25,21 @@ func (c Customer) Statement() string {
 	frequentRenterPoints := 0
 	result := fmt.Sprintf("Rental Record for %v\n", c.Name())
 	for _, r := range c.rentals {
-		frequentRenterPoints++
-		if r.Movie().PriceCode() == NEW_RELEASE && r.DaysRented() > 1 {
-			frequentRenterPoints++
-		}
+		frequentRenterPoints = getFrequentRenterPoints(frequentRenterPoints, r)
 		result += fmt.Sprintf("\t%v\t%.1f\n", r.Movie().Title(), r.getCharge())
 		totalAmount += r.getCharge()
 	}
 	result += fmt.Sprintf("Amount owed is %.1f\n", totalAmount)
 	result += fmt.Sprintf("You earned %v frequent renter points", frequentRenterPoints)
 	return result
+}
+
+func getFrequentRenterPoints(frequentRenterPoints int, r Rental) int {
+	frequentRenterPoints++
+	if r.Movie().PriceCode() == NEW_RELEASE && r.DaysRented() > 1 {
+		frequentRenterPoints++
+	}
+	return frequentRenterPoints
 }
 
 func (r Rental) getCharge() (result float64) {
