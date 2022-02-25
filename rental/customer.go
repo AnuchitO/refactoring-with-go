@@ -28,6 +28,10 @@ func (c Customer) Statement() string {
 		points:       c.totalFrequentRenterPoints(),
 	}
 
+	return renderPlainText(rc)
+}
+
+func renderPlainText(rc Record) string {
 	result := fmt.Sprintf("Rental Record for %s\n", rc.renter)
 	for _, r := range rc.rentals {
 		title := r.Movie().Title()
@@ -37,10 +41,6 @@ func (c Customer) Statement() string {
 	result += fmt.Sprintf("Amount owed is %.1f\n", rc.totalCharges)
 	result += fmt.Sprintf("You earned %v frequent renter points", rc.points)
 	return result
-}
-
-func renderPlainText(c Customer) string {
-	return c.Statement()
 }
 
 func (c Customer) totalFrequentRenterPoints() (result int) {
