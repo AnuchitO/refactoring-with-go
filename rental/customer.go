@@ -43,6 +43,20 @@ func renderPlainText(rc Record) string {
 	return result
 }
 
+func renderHtml(rc Record) string {
+	result := fmt.Sprintf("<h1>Rental Record for <em>%s</em></h1>\n", rc.renter)
+	result += "<table>\n"
+	for _, r := range rc.rentals {
+		title := r.Movie().Title()
+		charge := r.getCharge()
+		result += fmt.Sprintf("\t<tr><td>%s</td><td>%.1f</td></tr>\n", title, charge)
+	}
+	result += "</table>\n"
+	result += fmt.Sprintf("<p>Amount owed is <em>%.1f</em></p>\n", rc.totalCharges)
+	result += fmt.Sprintf("<p>You earned <em>%v</em> frequent renter points</p>", rc.points)
+	return result
+}
+
 func (c Customer) totalFrequentRenterPoints() (result int) {
 	for _, r := range c.rentals {
 		result += r.getFrequentRenterPoints()
