@@ -4,16 +4,16 @@ import "fmt"
 
 type Customer struct {
 	_name    string
-	_rentals []*Rental
+	_rentals []Rental
 }
 
 func NewCustomer(name string) (rcvr *Customer) {
 	rcvr = &Customer{}
-	rcvr._rentals = make([]*Rental, 0)
+	rcvr._rentals = make([]Rental, 0)
 	rcvr._name = name
 	return
 }
-func (rcvr *Customer) AddRental(arg *Rental) {
+func (rcvr *Customer) AddRental(arg Rental) {
 	rcvr._rentals = append(rcvr._rentals, arg)
 }
 func (rcvr *Customer) GetName() string {
