@@ -3,28 +3,28 @@ package rental
 import "fmt"
 
 type Customer struct {
-	_name    string
-	_rentals []Rental
+	name    string
+	rentals []Rental
 }
 
 func NewCustomer(name string) Customer {
 	return Customer{
-		_name:    name,
-		_rentals: []Rental{},
+		name:    name,
+		rentals: []Rental{},
 	}
 }
 func (rcvr Customer) AddRental(arg Rental) Customer {
-	rcvr._rentals = append(rcvr._rentals, arg)
+	rcvr.rentals = append(rcvr.rentals, arg)
 	return rcvr
 }
 func (rcvr Customer) GetName() string {
-	return rcvr._name
+	return rcvr.name
 }
 func (rcvr Customer) Statement() string {
 	totalAmount := 0.0
 	frequentRenterPoints := 0
 	result := fmt.Sprintf("%v%v%v", "Rental Record for ", rcvr.GetName(), "\n")
-	for _, each := range rcvr._rentals {
+	for _, each := range rcvr.rentals {
 		thisAmount := 0.0
 		switch each.Movie().PriceCode() {
 		case REGULAR:

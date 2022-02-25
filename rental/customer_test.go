@@ -11,12 +11,12 @@ func NewCustomerTest() (rcvr *CustomerTest) {
 }
 func TestCustomer(t *testing.T) {
 	customer := NewCustomer("AnuchitO")
-	customer._rentals = append(customer._rentals, NewRental(NewMovie("Kingsman", REGULAR), 2))
-	customer._rentals = append(customer._rentals, NewRental(NewMovie("Iron Man", REGULAR), 3))
-	customer._rentals = append(customer._rentals, NewRental(NewMovie("The Avengers", NEW_RELEASE), 1))
-	customer._rentals = append(customer._rentals, NewRental(NewMovie("Shang-chi", NEW_RELEASE), 2))
-	customer._rentals = append(customer._rentals, NewRental(NewMovie("Ant-Man", CHILDRENS), 3))
-	customer._rentals = append(customer._rentals, NewRental(NewMovie("The Batman", CHILDRENS), 4))
+	customer.rentals = append(customer.rentals, NewRental(NewMovie("Kingsman", REGULAR), 2))
+	customer.rentals = append(customer.rentals, NewRental(NewMovie("Iron Man", REGULAR), 3))
+	customer.rentals = append(customer.rentals, NewRental(NewMovie("The Avengers", NEW_RELEASE), 1))
+	customer.rentals = append(customer.rentals, NewRental(NewMovie("Shang-chi", NEW_RELEASE), 2))
+	customer.rentals = append(customer.rentals, NewRental(NewMovie("Ant-Man", CHILDRENS), 3))
+	customer.rentals = append(customer.rentals, NewRental(NewMovie("The Batman", CHILDRENS), 4))
 
 	want := `Rental Record for AnuchitO
 	Kingsman	2.0
