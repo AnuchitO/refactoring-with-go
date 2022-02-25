@@ -1,22 +1,26 @@
 package rental
 
-const CHILDRENS = 2
-const NEW_RELEASE = 1
-const REGULAR = 0
+type PriceCode int
+
+const (
+	CHILDRENS PriceCode = iota
+	NEW_RELEASE
+	REGULAR
+)
 
 type Movie struct {
 	title     string
-	priceCode int
+	priceCode PriceCode
 }
 
-func NewMovie(title string, priceCode int) Movie {
+func NewMovie(title string, priceCode PriceCode) Movie {
 	return Movie{
 		title:     title,
 		priceCode: priceCode,
 	}
 }
 
-func (m Movie) PriceCode() int {
+func (m Movie) PriceCode() PriceCode {
 	return m.priceCode
 }
 
