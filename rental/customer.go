@@ -72,7 +72,7 @@ func (c Customer) totalCharge() (result float64) {
 }
 
 func (r Rental) getFrequentRenterPoints() int {
-	if r.Movie().PriceCode() == NEW_RELEASE && r.DaysRented() > 1 {
+	if r.Movie().PriceCode() == NewRelease && r.DaysRented() > 1 {
 		return 2
 	}
 	return 1
@@ -90,11 +90,11 @@ type PriceState interface {
 
 func NewPrice(m Movie) PriceState {
 	switch m.PriceCode() {
-	case REGULAR:
+	case Regular:
 		return RegularPrice{Movie: m}
-	case CHILDRENS:
+	case Childrens:
 		return ChildrensPrice{Movie: m}
-	case NEW_RELEASE:
+	case NewRelease:
 		return NewReleasePrice{Movie: m}
 	default:
 		return RegularPrice{Movie: m}

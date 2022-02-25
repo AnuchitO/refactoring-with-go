@@ -3,9 +3,9 @@ package rental
 type PriceCode int
 
 const (
-	CHILDRENS PriceCode = iota
-	NEW_RELEASE
-	REGULAR
+	Childrens PriceCode = iota
+	NewRelease
+	Regular
 )
 
 type Movie struct {

@@ -11,12 +11,12 @@ func NewCustomerTest() (rcvr *CustomerTest) {
 }
 func TestCustomer(t *testing.T) {
 	customer := NewCustomer("AnuchitO")
-	customer.rentals = append(customer.rentals, NewRental(NewMovie("Kingsman", REGULAR), 2))
-	customer.rentals = append(customer.rentals, NewRental(NewMovie("Iron Man", REGULAR), 3))
-	customer.rentals = append(customer.rentals, NewRental(NewMovie("The Avengers", NEW_RELEASE), 1))
-	customer.rentals = append(customer.rentals, NewRental(NewMovie("Shang-chi", NEW_RELEASE), 2))
-	customer.rentals = append(customer.rentals, NewRental(NewMovie("Ant-Man", CHILDRENS), 3))
-	customer.rentals = append(customer.rentals, NewRental(NewMovie("The Batman", CHILDRENS), 4))
+	customer.rentals = append(customer.rentals, NewRental(NewMovie("Kingsman", Regular), 2))
+	customer.rentals = append(customer.rentals, NewRental(NewMovie("Iron Man", Regular), 3))
+	customer.rentals = append(customer.rentals, NewRental(NewMovie("The Avengers", NewRelease), 1))
+	customer.rentals = append(customer.rentals, NewRental(NewMovie("Shang-chi", NewRelease), 2))
+	customer.rentals = append(customer.rentals, NewRental(NewMovie("Ant-Man", Childrens), 3))
+	customer.rentals = append(customer.rentals, NewRental(NewMovie("The Batman", Childrens), 4))
 
 	want := `Rental Record for AnuchitO
 	Kingsman	2.0
@@ -37,8 +37,8 @@ func TestRenderHtml(t *testing.T) {
 	rc := Record{
 		renter: "AnuchitO",
 		rentals: []Rental{
-			NewRental(NewMovie("Kingsman", REGULAR), 2),
-			NewRental(NewMovie("Iron Man", REGULAR), 3),
+			NewRental(NewMovie("Kingsman", Regular), 2),
+			NewRental(NewMovie("Iron Man", Regular), 3),
 		},
 		totalCharges: 19.0,
 		points:       7,
