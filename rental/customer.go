@@ -79,19 +79,68 @@ func (r Rental) getFrequentRenterPoints() int {
 }
 
 func (m Movie) getCharge(daysRented int) (result float64) {
+	price := NewPrice(m)
+	return price.getCharge(daysRented)
+}
+
+type PriceState interface {
+	getCharge(daysRented int) float64
+	Next() PriceState
+}
+
+func NewPrice(m Movie) PriceState {
 	switch m.PriceCode() {
 	case REGULAR:
-		result += 2
-		if daysRented > 2 {
-			result += float64(daysRented-2) * 1.5
-		}
-	case NEW_RELEASE:
-		result += float64(daysRented) * 3.0
+		return RegularPrice{Movie: m}
 	case CHILDRENS:
-		result += 1.5
-		if daysRented > 3 {
-			result += float64(daysRented-3) * 1.5
-		}
+		return ChildrensPrice{Movie: m}
+	case NEW_RELEASE:
+		return NewReleasePrice{Movie: m}
+	default:
+		return RegularPrice{Movie: m}
 	}
-	return result
+}
+
+type RegularPrice struct {
+	Movie Movie
+}
+
+func (p RegularPrice) getCharge(daysRented int) (result float64) {
+	result += 2
+	if daysRented > 2 {
+		result += float64(daysRented-2) * 1.5
+	}
+	return
+}
+
+func (p RegularPrice) Next() PriceState {
+	return RegularPrice{Movie: p.Movie}
+}
+
+type ChildrensPrice struct {
+	Movie Movie
+}
+
+func (p ChildrensPrice) getCharge(daysRented int) (result float64) {
+	result += 1.5
+	if daysRented > 3 {
+		result += float64(daysRented-3) * 1.5
+	}
+	return
+}
+
+func (p ChildrensPrice) Next() PriceState {
+	return RegularPrice{Movie: p.Movie}
+}
+
+type NewReleasePrice struct {
+	Movie Movie
+}
+
+func (p NewReleasePrice) getCharge(daysRented int) (result float64) {
+	return float64(daysRented) * 3.0
+}
+
+func (p NewReleasePrice) Next() PriceState {
+	return RegularPrice{Movie: p.Movie}
 }
