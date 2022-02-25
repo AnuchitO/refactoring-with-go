@@ -24,13 +24,13 @@ func (c Customer) Statement() string {
 	totalAmount := 0.0
 	frequentRenterPoints := 0
 	result := fmt.Sprintf("Rental Record for %v\n", c.Name())
-	for _, each := range c.rentals {
-		thisAmount := each.getCharge()
+	for _, r := range c.rentals {
+		thisAmount := r.getCharge()
 		frequentRenterPoints++
-		if each.Movie().PriceCode() == NEW_RELEASE && each.DaysRented() > 1 {
+		if r.Movie().PriceCode() == NEW_RELEASE && r.DaysRented() > 1 {
 			frequentRenterPoints++
 		}
-		result += fmt.Sprintf("\t%v\t%.1f\n", each.Movie().Title(), thisAmount)
+		result += fmt.Sprintf("\t%v\t%.1f\n", r.Movie().Title(), thisAmount)
 		totalAmount += thisAmount
 	}
 	result += fmt.Sprintf("Amount owed is %.1f\n", totalAmount)
