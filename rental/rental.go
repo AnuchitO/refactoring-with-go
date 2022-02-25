@@ -5,11 +5,11 @@ type Rental struct {
 	_daysRented int
 }
 
-func NewRental(movie Movie, daysRented int) (rcvr Rental) {
-	rcvr = Rental{}
-	rcvr._movie = movie
-	rcvr._daysRented = daysRented
-	return
+func NewRental(movie Movie, daysRented int) Rental {
+	return Rental{
+		_movie:      movie,
+		_daysRented: daysRented,
+	}
 }
 func (rcvr Rental) GetDaysRented() int {
 	return rcvr._daysRented
