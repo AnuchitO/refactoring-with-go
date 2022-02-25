@@ -9,18 +9,18 @@ type Movie struct {
 	_priceCode int
 }
 
-func NewMovie(title string, priceCode int) (rcvr *Movie) {
-	rcvr = &Movie{}
+func NewMovie(title string, priceCode int) (rcvr Movie) {
+	rcvr = Movie{}
 	rcvr._title = title
 	rcvr._priceCode = priceCode
 	return
 }
-func (rcvr *Movie) GetPriceCode() int {
+func (rcvr Movie) GetPriceCode() int {
 	return rcvr._priceCode
 }
-func (rcvr *Movie) GetTitle() string {
+func (rcvr Movie) GetTitle() string {
 	return rcvr._title
 }
-func (rcvr *Movie) SetPriceCode(arg int) {
+func (rcvr Movie) SetPriceCode(arg int) {
 	rcvr._priceCode = arg
 }
