@@ -7,19 +7,20 @@ type Customer struct {
 	_rentals []Rental
 }
 
-func NewCustomer(name string) (rcvr *Customer) {
-	rcvr = &Customer{}
+func NewCustomer(name string) (rcvr Customer) {
+	rcvr = Customer{}
 	rcvr._rentals = make([]Rental, 0)
 	rcvr._name = name
 	return
 }
-func (rcvr *Customer) AddRental(arg Rental) {
+func (rcvr Customer) AddRental(arg Rental) Customer {
 	rcvr._rentals = append(rcvr._rentals, arg)
+	return rcvr
 }
-func (rcvr *Customer) GetName() string {
+func (rcvr Customer) GetName() string {
 	return rcvr._name
 }
-func (rcvr *Customer) Statement() string {
+func (rcvr Customer) Statement() string {
 	totalAmount := 0.0
 	frequentRenterPoints := 0
 	result := fmt.Sprintf("%v%v%v", "Rental Record for ", rcvr.GetName(), "\n")
