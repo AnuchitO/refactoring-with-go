@@ -1,27 +1,31 @@
 package main
 
 import (
-	"net/http"
+	"context"
+	"fmt"
 )
 
 func main() {
-	// var word string
-	// fmt.Println("What do you want to say?")
-	// fmt.Scan(&word)
-	// fmt.Printf("Say, %s!\n", word)
+	var word string
+	fmt.Println("What do you want to say?")
+	s := &CliSay{}
+	fmt.Scan(&word)
+	s.Saying(context.Background(), word)
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "form.html")
-	})
+	// http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	// 	http.ServeFile(w, r, "form.html")
+	// })
 
-	http.HandleFunc("/say", func(w http.ResponseWriter, r *http.Request) {
-		r.ParseForm()
-		word := r.FormValue("word")
-		w.Write([]byte(Saying(word)))
-	})
-	http.ListenAndServe("localhost:8080", nil)
+	// http.HandleFunc("/say", func(w http.ResponseWriter, r *http.Request) {
+	// 	r.ParseForm()
+	// 	word := r.FormValue("word")
+	// 	w.Write([]byte(Saying(word)))
+	// })
+	// http.ListenAndServe("localhost:8080", nil)
 }
 
-func Saying(word string) string {
-	return "Say, " + word + "!\n"
+type CliSay struct{}
+
+func (c *CliSay) Saying(ctx context.Context, word string) {
+	fmt.Printf("Say, %s!\n", word)
 }
