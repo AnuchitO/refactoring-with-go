@@ -17,21 +17,39 @@ func main() {
 		http.ServeFile(w, r, "form.html")
 	})
 
-	http.HandleFunc("/say", func(w http.ResponseWriter, r *http.Request) {
-		r.ParseForm()
-		word := r.FormValue("word")
-		s := &WebSay{w}
-		s.Saying(r.Context(), word)
-	})
+	h := Handler{
+		s: &WebSay{},
+	}
+
+	http.HandleFunc("/say", h.SayingHandler)
 	http.ListenAndServe("localhost:8080", nil)
 }
 
+type Say interface {
+	Saying(ctx context.Context, word string)
+}
+
+type Handler struct {
+	s Say
+}
+
+type writerType string
+
+const writerKey writerType = "writer"
+
+func (h *Handler) SayingHandler(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	word := r.FormValue("word")
+	ctx := context.WithValue(r.Context(), writerKey, w)
+	h.s.Saying(ctx, word)
+}
+
 type WebSay struct {
-	w http.ResponseWriter
 }
 
 func (w *WebSay) Saying(ctx context.Context, word string) {
-	w.w.Write([]byte("Say, " + word + "!"))
+	wt := ctx.Value(writerKey).(http.ResponseWriter)
+	wt.Write([]byte("Say, " + word + "!"))
 }
 
 type CliSay struct{}
