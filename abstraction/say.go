@@ -17,7 +17,11 @@ func main() {
 	http.HandleFunc("/say", func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 		word := r.FormValue("word")
-		w.Write([]byte("Say, " + word + "!\n"))
+		w.Write([]byte(Saying(word)))
 	})
 	http.ListenAndServe("localhost:8080", nil)
+}
+
+func Saying(word string) string {
+	return "Say, " + word + "!\n"
 }
