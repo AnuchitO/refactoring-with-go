@@ -10,7 +10,7 @@
 
 ### ข้อมูลนักแสดง
 plays.json
-```json 
+```json
 {
    "hamlet":{"name":"Hamlet","type":"tragedy"},
    "as-like":{"name":"As You Like It","type":"comedy"},
@@ -40,4 +40,29 @@ invoices.json
    ]
 }
 ]
+```
+
+# Output
+
+## PlainText
+```
+Statement for Bigco
+  Hamlet: $650.00 (55 seats)
+  As You Like It: $580.00 (35 seats)
+  Othello: $500.00 (40 seats)
+Amount owed is $1730.00
+you earned 47 credits
+```
+
+## HTML
+```html
+<h1>Statement for BigCo</h1>
+<table>
+	<tr><th>play</th><th>seats</th><th>cost</th></tr>
+	<tr><td>Hamlet</td><td>55</td><td>$650.00</td></tr>
+	<tr><td>As You Like It</td><td>35</td><td>$580.00</td></tr>
+	<tr><td>Othello</td><td>40</td><td>$500.00</td></tr>
+</table>
+<p>Amount owed is <em>$1730.00</em></p>
+<p>You earned <em>47</em> credits</p>
 ```
